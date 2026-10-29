@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ 3 Đề Ôn Tập KTGKI Toán 12 (2026 - 2027) - Chạy Offline</title>
+    <!-- CSS Nội tuyến hoàn toàn giúp chạy Offline 100% không cần mạng -->
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-light: #eff6ff;
+            --primary-border: #bfdbfe;
+            --secondary: #0f766e;
+            --accent: #d97706;
+            --success: #15803d;
+            --success-bg: #dcfce7;
+            --danger: #b91c1c;
+            --danger-bg: #fee2e2;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* Header & Topbar */
+        .app-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+            color: #fff;
+            padding: 20px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .header-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-title h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .brand-title p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .header-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .student-input {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            min-width: 200px;
+            outline: none;
+        }
+        .student-input::placeholder {
+            color: rgba(255,255,255,0.75);
+        }
+        .student-input:focus {
+            background: rgba(255,255,255,0.25);
+            border-color: #fff;
+        }
+
+        .timer-badge {
+            background: #0f172a;
+            color: #38bdf8;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Exam Tabs */
+        .exam-tabs {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 9px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #1e3a8a;
+            border-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            padding: 20px 16px;
+        }
+
+        @media (max-width: 920px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Action Bar */
+        .toolbar {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-primary:hover { background: #1e3a8a; }
+
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+        .btn-success:hover { background: #166534; }
+
+        .btn-outline {
+            background: #fff;
+            border-color: #cbd5e1;
+            color: var(--text);
+        }
+        .btn-outline:hover { background: #f1f5f9; }
+
+        .btn-warning {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-warning:hover { background: #b45309; }
+
+        /* Section Titles */
+        .section-banner {
+            background: linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%);
+            border-left: 5px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 24px 0 16px 0;
+        }
+        .section-banner h2 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+        .section-banner p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Question Card */
+        .q-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s;
+        }
+
+        .q-card.correct-card {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .q-card.wrong-card {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+
+        .q-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary-border);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 3px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .q-text {
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 14px;
+        }
+
+        /* Figure & SVG Container */
+        .figure-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 14px 0;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .figure-box svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Multiple Choice Options (Part I) */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .opt-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #fff;
+            transition: all 0.15s;
+            user-select: none;
+        }
+
+        .opt-label:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .opt-label input[type="radio"] {
+            accent-color: var(--primary);
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+        .opt-label.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .opt-label.is-right {
+            border-color: var(--success);
+            background: var(--success-bg);
+            color: #14532d;
+            font-weight: 700;
+        }
+
+        .opt-label.is-wrong {
+            border-color: var(--danger);
+            background: var(--danger-bg);
+            color: #7f1d1d;
+        }
+
+        /* True/False Table (Part II) */
+        .tf-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .tf-table th, .tf-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .tf-table th {
+            background: #f1f5f9;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .tf-table th:first-child {
+            text-align: left;
+        }
+
+        .tf-table td.tf-choice {
+            text-align: center;
+            width: 75px;
+        }
+
+        .tf-row-right {
+            background-color: #dcfce7 !important;
+        }
+
+        .tf-row-wrong {
+            background-color: #fee2e2 !important;
+        }
+
+        /* Short Answer (Part III) */
+        .sa-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px dashed #94a3b8;
+        }
+
+        .sa-input {
+            padding: 9px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            width: 180px;
+            color: var(--primary);
+            outline: none;
+        }
+
+        .sa-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Solution Box */
+        .solution-box {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            color: #78350f;
+        }
+
+        .solution-box.show {
+            display: block;
+        }
+
+        /* Sidebar Navigation & Score */
+        .sidebar-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            position: sticky;
+            top: 125px;
+            box-shadow: var(--shadow);
+        }
+
+        .score-box {
+            text-align: center;
+            padding: 14px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 10px;
+            border: 1px solid #bfdbfe;
+            margin-bottom: 16px;
+        }
+
+        .score-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .nav-dot {
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .nav-dot:hover {
+            border-color: var(--primary);
+        }
+
+        .nav-dot.done {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .nav-dot.dot-right {
+            background: var(--success);
+            color: #fff;
+            border-color: var(--success);
+        }
+
+        .nav-dot.dot-wrong {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+        }
+
+        /* Math Formatting (Native HTML/CSS Fraction & Radical) */
+        .math {
+            font-family: "Cambria Math", "Times New Roman", Times, serif;
+            font-style: italic;
+            font-weight: 500;
+        }
+        .math-num {
+            font-family: "Cambria Math", "Times New Roman", Times, serif;
+            font-style: normal;
+        }
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 3px;
+            font-family: "Cambria Math", "Times New Roman", serif;
+        }
+        .frac > span:first-child {
+            border-bottom: 1.2px solid currentColor;
+            padding: 0 3px 1px 3px;
+            line-height: 1.15;
+        }
+        .frac > span:last-child {
+            padding: 1px 3px 0 3px;
+            line-height: 1.15;
+        }
+        .sqrt {
+            display: inline-flex;
+            align-items: center;
+            font-family: "Cambria Math", "Times New Roman", serif;
+        }
+        .sqrt-rad {
+            font-size: 1.15em;
+            line-height: 1;
+            margin-right: 1px;
+        }
+        .sqrt-body {
+            border-top: 1.2px solid currentColor;
+            padding-top: 1px;
+        }
+
+        @media print {
+            .app-header, .toolbar, .sidebar-card {
+                display: none !important;
+            }
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .q-card {
+                break-inside: avoid;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="container">
+        <div class="header-top">
+            <div class="brand-title">
+                <h1>HỆ THỐNG ÔN TẬP KIỂM TRA GIỮA KÌ I - TOÁN 12</h1>
+                <p>Năm học 2026 - 2027 • Chạy hoàn toàn Offline • Đầy đủ đồ thị & Bảng biến thiên</p>
+            </div>
+            <div class="header-controls">
+                <input type="text" id="studentName" class="student-input" placeholder="Nhập Họ và tên học sinh...">
+                <div class="timer-badge" title="Thời gian làm bài 90 phút">
+                    <span>⏱</span>
+                    <span id="timerDisplay">90:00</span>
+                </div>
+            </div>
+        </div>
+        <div class="exam-tabs">
+            <button class="tab-btn active" onclick="switchExam(0)" id="tabBtn0">📄 Đề 1: Ngày 21/10/2026</button>
+            <button class="tab-btn" onclick="switchExam(1)" id="tabBtn1">📄 Đề 2: Ngày 23/10/2026</button>
+            <button class="tab-btn" onclick="switchExam(2)" id="tabBtn2">📄 Đề 3: Ngày 28/10/2026</button>
+        </div>
+    </div>
+</header>
+
+<div class="container main-grid">
+    <!-- Khu vực nội dung đề thi -->
+    <main>
+        <div class="toolbar">
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="gradeCurrentExam()">✅ Nộp bài & Chấm điểm</button>
+                <button class="btn btn-warning" onclick="toggleSolutions()">💡 Xem / Ẩn Lời giải chi tiết</button>
+                <button class="btn btn-outline" onclick="resetCurrentExam()">🔄 Làm lại đề này</button>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="btn btn-outline" onclick="window.print()">🖨️ In đề / Lưu PDF</button>
+                <button class="btn btn-success" onclick="downloadOfflineHTML()">⬇️ Tải file .HTML chạy Offline</button>
+            </div>
+        </div>
+
+        <div id="examTitleHeader" style="margin-bottom: 12px;"></div>
+        <div id="questionsContainer"></div>
+    </main>
+
+    <!-- Thanh bên: Bảng điểm & Phiếu trả lời nhanh -->
+    <aside>
+        <div class="sidebar-card">
+            <div class="score-box">
+                <div style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">ĐIỂM SỐ (THANG ĐIỂM 10)</div>
+                <div class="score-number" id="scoreValue">-- / 10</div>
+                <div id="scoreDetail" style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">Chưa nộp bài</div>
+            </div>
+
+            <div style="font-weight:700; font-size:0.88rem; margin-bottom:6px; color:var(--primary);">PHẦN I: Trắc nghiệm (3.0đ)</div>
+            <div class="nav-grid" id="navPart1"></div>
+
+            <div style="font-weight:700; font-size:0.88rem; margin-bottom:6px; color:var(--primary);">PHẦN II: Đúng / Sai (4.0đ)</div>
+            <div class="nav-grid" id="navPart2"></div>
+
+            <div style="font-weight:700; font-size:0.88rem; margin-bottom:6px; color:var(--primary);">PHẦN III: Trả lời ngắn (3.0đ)</div>
+            <div class="nav-grid" id="navPart3"></div>
+
+            <div style="font-size:0.8rem; color:var(--text-muted); border-top:1px solid var(--border); padding-top:10px; margin-top:8px;">
+                <div><strong>Cấu trúc điểm chuẩn Bộ GD&ĐT:</strong></div>
+                <div>• Phần I: 12 câu × 0.25đ = 3.0đ</div>
+                <div>• Phần II: 4 câu (Đúng 1 ý: 0.1đ; 2 ý: 0.25đ; 3 ý: 0.5đ; 4 ý: 1.0đ) = 4.0đ</div>
+                <div>• Phần III: 6 câu × 0.5đ = 3.0đ</div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<script>
+// ============================================================================
+// KHO ĐỒ THỊ, BẢNG BIẾN THIÊN VÀ HÌNH VẼ MINH HỌA BẰNG SVG (CHẠY OFFLINE 100%)
+// ============================================================================
+const SVG_LIB = {
+    // ĐỀ 1 - CÂU 1: Hàm trùng phương y = -x^4/4 + 2x^2 - 1
+    d1_p1_q1: `
+    <svg viewBox="0 0 320 240" width="300" height="225">
+        <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b"/>
+            </marker>
+        </defs>
+        <!-- Trục tọa độ -->
+        <line x1="20" y1="150" x2="300" y2="150" stroke="#1e293b" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="160" y1="225" x2="160" y2="15" stroke="#1e293b" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Đường gióng nét đứt -->
+        <line x1="90" y1="60" x2="230" y2="60" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <line x1="90" y1="60" x2="90" y2="150" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <line x1="230" y1="60" x2="230" y2="150" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <!-- Đường cong hàm trùng phương: (-2,3) -> (90,60); (0,-1) -> (160,180); (2,3) -> (230,60) -->
+        <path d="M 52 220 C 65 110, 78 60, 90 60 C 110 60, 135 180, 160 180 C 185 180, 210 60, 230 60 C 242 60, 255 110, 268 220" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+        <!-- Nhãn -->
+        <text x="290" y="168" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="143" y="25" font-family="serif" font-style="italic" font-size="15">y</text>
+        <text x="142" y="168" font-family="serif" font-style="italic" font-size="14">O</text>
+        <text x="80" y="168" font-family="serif" font-size="14">-2</text>
+        <text x="226" y="168" font-family="serif" font-size="14">2</text>
+        <text x="166" y="54" font-family="serif" font-size="14">3</text>
+        <text x="135" y="192" font-family="serif" font-size="14">-1</text>
+    </svg>`,
+
+    // ĐỀ 1 - CÂU 3: BBT x: -∞, 0, 3, +∞ | f(x): -∞ ↗ 4 ↘ -5 ↗ +∞
+    d1_p1_q3: `
+    <svg viewBox="0 0 520 175" width="500" height="168">
+        <rect x="5" y="5" width="510" height="165" fill="#fff" stroke="#1e293b" stroke-width="1.5"/>
+        <line x1="5" y1="40" x2="515" y2="40" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="5" y1="75" x2="515" y2="75" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="65" y1="5" x2="65" y2="170" stroke="#1e293b" stroke-width="1.2"/>
+        <text x="30" y="28" font-family="serif" font-style="italic" font-size="16">x</text>
+        <text x="20" y="63" font-family="serif" font-style="italic" font-size="15">f'(x)</text>
+        <text x="20" y="125" font-family="serif" font-style="italic" font-size="15">f(x)</text>
+        <!-- Dòng x -->
+        <text x="80" y="28" font-family="serif" font-size="15">-∞</text>
+        <text x="215" y="28" font-family="serif" font-size="15">0</text>
+        <text x="355" y="28" font-family="serif" font-size="15">3</text>
+        <text x="475" y="28" font-family="serif" font-size="15">+∞</text>
+        <!-- Dòng f'(x) -->
+        <text x="145" y="62" font-family="serif" font-size="16">+</text>
+        <text x="215" y="62" font-family="serif" font-size="15">0</text>
+        <text x="285" y="62" font-family="serif" font-size="18">-</text>
+        <text x="355" y="62" font-family="serif" font-size="15">0</text>
+        <text x="425" y="62" font-family="serif" font-size="16">+</text>
+        <!-- Dòng f(x) -->
+        <text x="80" y="158" font-family="serif" font-size="15">-∞</text>
+        <text x="214" y="96" font-family="serif" font-size="15">4</text>
+        <text x="348" y="158" font-family="serif" font-size="15">-5</text>
+        <text x="475" y="96" font-family="serif" font-size="15">+∞</text>
+        <line x1="108" y1="148" x2="202" y2="96" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="232" y1="96" x2="338" y2="148" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="375" y1="148" x2="468" y2="98" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 1 - CÂU 6: Đồ thị hàm bậc 3 trên [-1; 3]
+    d1_p1_q6: `
+    <svg viewBox="0 0 300 250" width="280" height="235">
+        <line x1="20" y1="95" x2="280" y2="95" stroke="#1e293b" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="105" y1="235" x2="105" y2="15" stroke="#1e293b" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Nét đứt -->
+        <line x1="65" y1="95" x2="65" y2="205" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <line x1="65" y1="205" x2="185" y2="205" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <line x1="185" y1="95" x2="185" y2="205" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <line x1="105" y1="58" x2="225" y2="58" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <line x1="225" y1="58" x2="225" y2="95" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <!-- Đường cong y = x^3 - 3x^2 + 1: (-1,-3)->(65,205); (0,1)->(105,58); (2,-3)->(185,205); (3,1)->(225,58) -->
+        <path d="M 60 228 C 72 130, 90 58, 105 58 C 132 58, 158 205, 185 205 C 202 205, 218 110, 232 25" fill="none" stroke="#dc2626" stroke-width="2.2"/>
+        <!-- Điểm tròn -->
+        <circle cx="65" cy="205" r="3" fill="#dc2626"/>
+        <circle cx="105" cy="58" r="3" fill="#dc2626"/>
+        <circle cx="185" cy="205" r="3" fill="#dc2626"/>
+        <circle cx="225" cy="58" r="3" fill="#dc2626"/>
+        <text x="48" y="112" font-family="serif" font-size="14">-1</text>
+        <text x="88" y="112" font-family="serif" font-style="italic" font-size="14">O</text>
+        <text x="181" y="90" font-family="serif" font-size="13">2</text>
+        <text x="222" y="112" font-family="serif" font-size="14">3</text>
+        <text x="112" y="52" font-family="serif" font-size="14">1</text>
+        <text x="80" y="218" font-family="serif" font-size="14">-3</text>
+        <text x="268" y="112" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="114" y="24" font-family="serif" font-style="italic" font-size="15">y</text>
+    </svg>`,
+
+    // ĐỀ 1 - CÂU 8: BBT có 2 TCĐ x = -3, x = 3 và TCN y = 0
+    d1_p1_q8: `
+    <svg viewBox="0 0 540 185" width="510" height="175">
+        <rect x="5" y="5" width="530" height="175" fill="#fff" stroke="#1e293b" stroke-width="1.5"/>
+        <line x1="5" y1="40" x2="535" y2="40" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="5" y1="75" x2="535" y2="75" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="60" y1="5" x2="60" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <!-- Hai vạch kép tại x = -3 và x = 3 -->
+        <line x1="210" y1="40" x2="210" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="215" y1="40" x2="215" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="370" y1="40" x2="370" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="375" y1="40" x2="375" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <text x="28" y="28" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="25" y="62" font-family="serif" font-style="italic" font-size="15">y'</text>
+        <text x="28" y="130" font-family="serif" font-style="italic" font-size="15">y</text>
+        <text x="72" y="28" font-family="serif" font-size="15">-∞</text>
+        <text x="202" y="28" font-family="serif" font-size="15">-3</text>
+        <text x="368" y="28" font-family="serif" font-size="15">3</text>
+        <text x="495" y="28" font-family="serif" font-size="15">+∞</text>
+        <text x="132" y="62" font-family="serif" font-size="16">+</text>
+        <text x="290" y="62" font-family="serif" font-size="16">+</text>
+        <text x="445" y="62" font-family="serif" font-size="16">+</text>
+        <!-- Mũi tên nhánh 1 -->
+        <text x="75" y="155" font-family="serif" font-size="15">0</text>
+        <text x="180" y="96" font-family="serif" font-size="14">+∞</text>
+        <line x1="92" y1="148" x2="176" y2="100" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <!-- Mũi tên nhánh 2 -->
+        <text x="222" y="168" font-family="serif" font-size="14">-∞</text>
+        <text x="342" y="96" font-family="serif" font-size="14">+∞</text>
+        <line x1="250" y1="158" x2="338" y2="100" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <!-- Mũi tên nhánh 3 -->
+        <text x="382" y="168" font-family="serif" font-size="14">-∞</text>
+        <text x="510" y="128" font-family="serif" font-size="15">0</text>
+        <line x1="410" y1="160" x2="500" y2="128" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 1 - CÂU 11: Đồ thị hàm bậc 2 trên bậc 1 y = (x^2 - x - 1)/(x - 2)
+    d1_p1_q11: `
+    <svg viewBox="0 0 320 260" width="290" height="240">
+        <line x1="15" y1="175" x2="305" y2="175" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="130" y1="250" x2="130" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- TCĐ x = 2 (tọa độ x = 190) -->
+        <line x1="190" y1="15" x2="190" y2="250" stroke="#0d9488" stroke-width="1.5"/>
+        <!-- TCX y = x + 1: qua (-1,0)->(100,175), (0,1)->(130,145), (2,3)->(190,85) -->
+        <line x1="30" y1="245" x2="295" y2="-20" stroke="#0d9488" stroke-width="1.3"/>
+        <!-- Nhánh trái: cực đại (1, 1) -> (160, 145), qua (0, 0.5) -> (130, 160) -->
+        <path d="M 35 245 Q 130 152, 155 145 Q 178 140, 185 248" fill="none" stroke="#1e293b" stroke-width="2"/>
+        <!-- Nhánh phải: cực tiểu tại (3, 5) -> (220, 45) -->
+        <path d="M 195 15 Q 205 90, 222 82 Q 245 72, 295 22" fill="none" stroke="#1e293b" stroke-width="2"/>
+        <!-- Gióng cực đại (1,1) -->
+        <line x1="130" y1="145" x2="160" y2="145" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="160" y1="145" x2="160" y2="175" stroke="#475569" stroke-dasharray="3,3"/>
+        <text x="86" y="170" font-family="serif" font-size="13">-1</text>
+        <text x="118" y="148" font-family="serif" font-size="13">1</text>
+        <text x="133" y="166" font-family="serif" font-size="12">0,5</text>
+        <text x="134" y="190" font-family="serif" font-style="italic" font-size="13">O</text>
+        <text x="156" y="190" font-family="serif" font-size="13">1</text>
+        <text x="194" y="190" font-family="serif" font-size="13">2</text>
+        <text x="292" y="190" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="116" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 1 - CÂU 12: Đồ thị y = (2x - 1)/(x + 1), TCĐ x = -1, TCN y = 2
+    d1_p1_q12: `
+    <svg viewBox="0 0 320 250" width="290" height="230">
+        <line x1="15" y1="165" x2="305" y2="165" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="155" y1="240" x2="155" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- TCĐ x = -1 (x=125) & TCN y = 2 (y=115) -->
+        <line x1="125" y1="15" x2="125" y2="240" stroke="#475569" stroke-width="1.2"/>
+        <line x1="15" y1="115" x2="305" y2="115" stroke="#475569" stroke-width="1.2"/>
+        <circle cx="125" cy="115" r="3" fill="#1e293b"/>
+        <!-- Nhánh trái -->
+        <path d="M 20 98 Q 95 92, 116 18" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+        <!-- Nhánh phải: qua (0,-1)->(155,190) và (0.5,0)->(170,165) -->
+        <path d="M 134 238 Q 145 140, 298 123" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+        <circle cx="155" cy="190" r="3" fill="#1e293b"/>
+        <circle cx="170" cy="165" r="3" fill="#1e293b"/>
+        <text x="108" y="180" font-family="serif" font-size="13">-1</text>
+        <text x="142" y="180" font-family="serif" font-size="13">0</text>
+        <text x="182" y="180" font-family="serif" font-size="13">1</text>
+        <text x="212" y="180" font-family="serif" font-size="13">2</text>
+        <text x="142" y="119" font-family="serif" font-size="13">2</text>
+        <text x="138" y="195" font-family="serif" font-size="13">-1</text>
+    </svg>`,
+
+    // ĐỀ 1 - PHẦN II - CÂU 2: BBT y = (ax+3)/(x+b), TCĐ x = 2, TCN y = -1
+    d1_p2_q2: `
+    <svg viewBox="0 0 480 175" width="460" height="165">
+        <rect x="5" y="5" width="470" height="165" fill="#fff" stroke="#1e293b" stroke-width="1.5"/>
+        <line x1="5" y1="40" x2="475" y2="40" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="5" y1="75" x2="475" y2="75" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="60" y1="5" x2="60" y2="170" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="265" y1="40" x2="265" y2="170" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="270" y1="40" x2="270" y2="170" stroke="#1e293b" stroke-width="1.2"/>
+        <text x="28" y="28" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="25" y="62" font-family="serif" font-style="italic" font-size="15">y'</text>
+        <text x="28" y="128" font-family="serif" font-style="italic" font-size="15">y</text>
+        <text x="75" y="28" font-family="serif" font-size="15">-∞</text>
+        <text x="263" y="28" font-family="serif" font-size="15">2</text>
+        <text x="435" y="28" font-family="serif" font-size="15">+∞</text>
+        <text x="165" y="62" font-family="serif" font-size="18">-</text>
+        <text x="365" y="62" font-family="serif" font-size="18">-</text>
+        <text x="75" y="98" font-family="serif" font-size="15">-1</text>
+        <text x="232" y="158" font-family="serif" font-size="15">-∞</text>
+        <line x1="100" y1="96" x2="225" y2="148" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <text x="280" y="98" font-family="serif" font-size="15">+∞</text>
+        <text x="440" y="158" font-family="serif" font-size="15">-1</text>
+        <line x1="312" y1="96" x2="432" y2="148" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 1 - PHẦN II - CÂU 4: Đồ thị bậc ba cực đại (-2,2), cực tiểu (0,-2)
+    d1_p2_q4: `
+    <svg viewBox="0 0 300 240" width="280" height="225">
+        <line x1="15" y1="120" x2="285" y2="120" stroke="#1e293b" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="160" y1="225" x2="160" y2="15" stroke="#1e293b" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="90" y1="55" x2="160" y2="55" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,4"/>
+        <line x1="90" y1="55" x2="90" y2="120" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,4"/>
+        <path d="M 42 220 C 60 110, 75 55, 90 55 C 115 55, 135 185, 160 185 C 178 185, 195 110, 210 18" fill="none" stroke="#7c3aed" stroke-width="2.2"/>
+        <circle cx="90" cy="55" r="3" fill="#1e293b"/>
+        <circle cx="125" cy="120" r="3" fill="#1e293b"/>
+        <circle cx="160" cy="185" r="3" fill="#1e293b"/>
+        <text x="80" y="138" font-family="serif" font-size="14">-2</text>
+        <text x="115" y="138" font-family="serif" font-size="14">-1</text>
+        <text x="145" y="138" font-family="serif" font-style="italic" font-size="14">O</text>
+        <text x="192" y="138" font-family="serif" font-size="14">1</text>
+        <text x="168" y="60" font-family="serif" font-size="14">2</text>
+        <text x="168" y="192" font-family="serif" font-size="14">-2</text>
+        <text x="272" y="136" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="168" y="25" font-family="serif" font-style="italic" font-size="15">y</text>
+    </svg>`,
+
+    // ĐỀ 1 - PHẦN III - CÂU 3: Khu nuôi cá riêng góc hồ
+    d1_p3_q3: `
+    <svg viewBox="0 0 320 220" width="290" height="200">
+        <!-- Vùng tô xám -->
+        <polygon points="55,45 55,185 265,185" fill="#cbd5e1" stroke="#1e293b" stroke-width="1.8"/>
+        <!-- Bờ dọc & Bờ ngang -->
+        <line x1="55" y1="15" x2="55" y2="185" stroke="#0f172a" stroke-width="3.5"/>
+        <line x1="55" y1="185" x2="300" y2="185" stroke="#0f172a" stroke-width="3.5"/>
+        <rect x="55" y="173" width="12" height="12" fill="none" stroke="#0f172a" stroke-width="1.8"/>
+        <!-- Các cọc -->
+        <circle cx="55" cy="45" r="5" fill="#334155" stroke="#0f172a" stroke-width="1.5"/>
+        <circle cx="265" cy="185" r="5" fill="#334155" stroke="#0f172a" stroke-width="1.5"/>
+        <circle cx="175" cy="125" r="5" fill="#dc2626" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="182" y="118" font-family="serif" font-style="italic" font-weight="bold" font-size="16">A</text>
+        <text x="10" y="95" font-family="serif" font-size="15">Bờ</text>
+        <text x="10" y="115" font-family="serif" font-size="15">dọc</text>
+        <text x="130" y="208" font-family="serif" font-size="15">Bờ ngang</text>
+        <text x="78" y="142" font-family="serif" font-style="italic" font-weight="bold" font-size="15">Khu nuôi</text>
+        <text x="78" y="162" font-family="serif" font-style="italic" font-weight="bold" font-size="15">cá riêng</text>
+    </svg>`,
+
+    // ĐỀ 1 - PHẦN III - CÂU 4: Hòn đảo & Đường ống biển
+    d1_p3_q4: `
+    <svg viewBox="0 0 340 220" width="310" height="200">
+        <rect x="15" y="15" width="310" height="175" fill="#f8fafc" stroke="#334155" stroke-width="1.4"/>
+        <!-- Đảo -->
+        <polygon points="55,40 80,22 115,38 102,75 60,72" fill="#cbd5e1" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="72" y="55" font-family="serif" font-style="italic" font-weight="bold" font-size="15">đảo</text>
+        <!-- Đoạn BB' = 6km -->
+        <line x1="90" y1="74" x2="90" y2="190" stroke="#0f172a" stroke-width="2" stroke-dasharray="6,5"/>
+        <!-- Bờ biển B'A = 9km -->
+        <line x1="90" y1="190" x2="310" y2="190" stroke="#0f172a" stroke-width="2.5"/>
+        <circle cx="90" cy="74" r="4.5" fill="#dc2626"/>
+        <circle cx="90" cy="190" r="4.5" fill="#dc2626"/>
+        <circle cx="310" cy="190" r="4.5" fill="#dc2626"/>
+        <text x="98" y="76" font-family="serif" font-style="italic" font-weight="bold" font-size="15">B</text>
+        <text x="82" y="210" font-family="serif" font-style="italic" font-weight="bold" font-size="15">B'</text>
+        <text x="312" y="210" font-family="serif" font-style="italic" font-weight="bold" font-size="15">A</text>
+        <text x="52" y="138" font-family="serif" font-style="italic" font-size="15">6km</text>
+        <text x="150" y="210" font-family="serif" font-style="italic" font-size="15">bờ biển</text>
+        <text x="235" y="210" font-family="serif" font-style="italic" font-size="15">9km</text>
+        <text x="210" y="105" font-family="serif" font-style="italic" font-size="16">biển</text>
+    </svg>`,
+
+    // ĐỀ 2 - CÂU 1: BBT của f'(x): +∞ ↘ -4 ↗ 0 ↘ -2 ↗ +∞
+    d2_p1_q1: `
+    <svg viewBox="0 0 520 155" width="490" height="145">
+        <line x1="10" y1="38" x2="510" y2="38" stroke="#1e293b" stroke-width="1.4"/>
+        <line x1="65" y1="8" x2="65" y2="145" stroke="#1e293b" stroke-width="1.4"/>
+        <text x="30" y="26" font-family="serif" font-style="italic" font-size="16">x</text>
+        <text x="18" y="95" font-family="serif" font-style="italic" font-size="16">f'(x)</text>
+        <text x="80" y="26" font-family="serif" font-size="15">-∞</text>
+        <text x="185" y="26" font-family="serif" font-size="15">-3</text>
+        <text x="290" y="26" font-family="serif" font-size="15">0</text>
+        <text x="390" y="26" font-family="serif" font-size="15">2</text>
+        <text x="475" y="26" font-family="serif" font-size="15">+∞</text>
+        <!-- Giá trị dòng f'(x) -->
+        <text x="78" y="62" font-family="serif" font-size="15">+∞</text>
+        <text x="182" y="138" font-family="serif" font-size="15">-4</text>
+        <text x="290" y="64" font-family="serif" font-size="15">0</text>
+        <text x="385" y="138" font-family="serif" font-size="15">-2</text>
+        <text x="475" y="62" font-family="serif" font-size="15">+∞</text>
+        <line x1="100" y1="68" x2="175" y2="122" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="205" y1="122" x2="278" y2="68" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="305" y1="68" x2="378" y2="122" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="408" y1="122" x2="472" y2="68" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 2 - CÂU 3: BBT x: -∞, -1, 3, +∞ | y: -∞ ↗ 4 ↘ -2 ↗ +∞
+    d2_p1_q3: `
+    <svg viewBox="0 0 500 170" width="480" height="160">
+        <line x1="10" y1="38" x2="490" y2="38" stroke="#1e293b" stroke-width="1.3"/>
+        <line x1="10" y1="72" x2="490" y2="72" stroke="#1e293b" stroke-width="1.3"/>
+        <line x1="65" y1="8" x2="65" y2="162" stroke="#1e293b" stroke-width="1.3"/>
+        <text x="30" y="26" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="28" y="60" font-family="serif" font-style="italic" font-size="15">y'</text>
+        <text x="30" y="122" font-family="serif" font-style="italic" font-size="15">y</text>
+        <text x="75" y="26" font-family="serif" font-size="15">-∞</text>
+        <text x="195" y="26" font-family="serif" font-size="15">-1</text>
+        <text x="335" y="26" font-family="serif" font-size="15">3</text>
+        <text x="450" y="26" font-family="serif" font-size="15">+∞</text>
+        <text x="135" y="60" font-family="serif" font-size="16">+</text>
+        <text x="200" y="60" font-family="serif" font-size="15">0</text>
+        <text x="268" y="60" font-family="serif" font-size="18">-</text>
+        <text x="335" y="60" font-family="serif" font-size="15">0</text>
+        <text x="400" y="60" font-family="serif" font-size="16">+</text>
+        <text x="75" y="155" font-family="serif" font-size="15">-∞</text>
+        <text x="200" y="96" font-family="serif" font-size="15">4</text>
+        <text x="330" y="155" font-family="serif" font-size="15">-2</text>
+        <text x="450" y="92" font-family="serif" font-size="15">+∞</text>
+        <line x1="102" y1="145" x2="192" y2="96" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="215" y1="96" x2="322" y2="145" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="355" y1="145" x2="445" y2="95" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 2 - CÂU 4: BBT x: -∞, -1, 2, +∞ | f(x): -∞ ↗ 1 ↘ -2 ↗ +∞
+    d2_p1_q4: `
+    <svg viewBox="0 0 500 170" width="480" height="160">
+        <line x1="10" y1="38" x2="490" y2="38" stroke="#1e293b" stroke-width="1.3"/>
+        <line x1="10" y1="72" x2="490" y2="72" stroke="#1e293b" stroke-width="1.3"/>
+        <line x1="65" y1="8" x2="65" y2="162" stroke="#1e293b" stroke-width="1.3"/>
+        <text x="30" y="26" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="20" y="60" font-family="serif" font-style="italic" font-size="15">f'(x)</text>
+        <text x="22" y="122" font-family="serif" font-style="italic" font-size="15">f(x)</text>
+        <text x="75" y="26" font-family="serif" font-size="15">-∞</text>
+        <text x="195" y="26" font-family="serif" font-size="15">-1</text>
+        <text x="335" y="26" font-family="serif" font-size="15">2</text>
+        <text x="450" y="26" font-family="serif" font-size="15">+∞</text>
+        <text x="135" y="60" font-family="serif" font-size="16">+</text>
+        <text x="200" y="60" font-family="serif" font-size="15">0</text>
+        <text x="268" y="60" font-family="serif" font-size="18">-</text>
+        <text x="335" y="60" font-family="serif" font-size="15">0</text>
+        <text x="400" y="60" font-family="serif" font-size="16">+</text>
+        <text x="75" y="155" font-family="serif" font-size="15">-∞</text>
+        <text x="200" y="96" font-family="serif" font-size="15">1</text>
+        <text x="330" y="155" font-family="serif" font-size="15">-2</text>
+        <text x="450" y="92" font-family="serif" font-size="15">+∞</text>
+        <line x1="102" y1="145" x2="192" y2="96" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="215" y1="96" x2="322" y2="145" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="355" y1="145" x2="445" y2="95" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 2 - CÂU 9: Đồ thị y = (-2x + 2)/(x + 1), TCĐ x = -1, TCN y = -2, qua (0,2), (1,0)
+    d2_p1_q9: `
+    <svg viewBox="0 0 300 250" width="280" height="230">
+        <line x1="15" y1="120" x2="285" y2="120" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="160" y1="240" x2="160" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- TCĐ x = -1 (130), TCN y = -2 (180) -->
+        <line x1="130" y1="15" x2="130" y2="240" stroke="#475569" stroke-width="1.1"/>
+        <line x1="15" y1="180" x2="285" y2="180" stroke="#475569" stroke-width="1.1"/>
+        <!-- Nhánh phải: qua (0,2)->(160,60) và (1,0)->(190,120) -->
+        <path d="M 142 15 Q 155 155, 280 172" fill="none" stroke="#3730a3" stroke-width="2"/>
+        <!-- Nhánh trái -->
+        <path d="M 18 190 Q 105 198, 120 238" fill="none" stroke="#3730a3" stroke-width="2"/>
+        <text x="112" y="135" font-family="serif" font-size="13">-1</text>
+        <text x="147" y="135" font-family="serif" font-style="italic" font-size="13">O</text>
+        <text x="187" y="135" font-family="serif" font-size="13">1</text>
+        <text x="148" y="64" font-family="serif" font-size="13">2</text>
+        <text x="142" y="196" font-family="serif" font-size="13">-2</text>
+        <text x="275" y="135" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="146" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 2 - CÂU 10: Đồ thị y = (ax - b)/(x - 1): TCĐ x = 1, TCN y = -1, qua (0,-2) và (2,0)
+    d2_p1_q10: `
+    <svg viewBox="0 0 300 240" width="280" height="225">
+        <line x1="15" y1="120" x2="285" y2="120" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="135" y1="230" x2="135" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- TCĐ x = 1 (165), TCN y = -1 (145) -->
+        <line x1="165" y1="15" x2="165" y2="230" stroke="#475569" stroke-width="1.1"/>
+        <line x1="15" y1="145" x2="285" y2="145" stroke="#475569" stroke-width="1.1"/>
+        <!-- Nhánh trái: qua (0,-2)->(135,170) -->
+        <path d="M 18 150 Q 145 153, 157 228" fill="none" stroke="#3730a3" stroke-width="2"/>
+        <!-- Nhánh phải: qua (2,0)->(195,120) -->
+        <path d="M 172 15 Q 178 136, 282 140" fill="none" stroke="#3730a3" stroke-width="2"/>
+        <text x="122" y="115" font-family="serif" font-style="italic" font-size="13">O</text>
+        <text x="156" y="134" font-family="serif" font-size="13">1</text>
+        <text x="192" y="134" font-family="serif" font-size="13">2</text>
+        <text x="118" y="142" font-family="serif" font-size="13">-1</text>
+        <text x="118" y="175" font-family="serif" font-size="13">-2</text>
+        <text x="275" y="134" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="122" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 2 - CÂU 11: Đồ thị y = (x^2 + x + 1)/(x + 1): TCĐ x = -1, TCX y = x, CĐ (-2,-3), CT (0,1)
+    d2_p1_q11: `
+    <svg viewBox="0 0 300 250" width="280" height="230">
+        <line x1="15" y1="125" x2="285" y2="125" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="145" y1="240" x2="145" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- TCĐ x = -1 (115), TCX y = x -->
+        <line x1="115" y1="15" x2="115" y2="240" stroke="#1e293b" stroke-width="1.3" stroke-dasharray="4,4"/>
+        <line x1="35" y1="235" x2="255" y2="15" stroke="#1e293b" stroke-width="1.3" stroke-dasharray="4,4"/>
+        <!-- Nhánh phải: CT tại (0,1)->(145,95) -->
+        <path d="M 122 15 Q 130 98, 145 95 Q 165 92, 248 15" fill="none" stroke="#1e293b" stroke-width="2.1"/>
+        <!-- Nhánh trái: CĐ tại (-2,-3)->(85,205) -->
+        <path d="M 42 238 Q 72 205, 85 205 Q 98 205, 108 240" fill="none" stroke="#1e293b" stroke-width="2.1"/>
+        <line x1="85" y1="125" x2="85" y2="205" stroke="#1e293b" stroke-dasharray="3,3"/>
+        <line x1="85" y1="205" x2="145" y2="205" stroke="#1e293b" stroke-dasharray="3,3"/>
+        <circle cx="85" cy="205" r="3" fill="#1e293b"/>
+        <circle cx="145" cy="205" r="3" fill="#1e293b"/>
+        <text x="72" y="118" font-family="serif" font-size="13">-2</text>
+        <text x="98" y="118" font-family="serif" font-size="13">-1</text>
+        <text x="130" y="118" font-family="serif" font-style="italic" font-size="13">O</text>
+        <text x="172" y="142" font-family="serif" font-size="13">1</text>
+        <text x="152" y="210" font-family="serif" font-size="13">-3</text>
+    </svg>`,
+
+    // ĐỀ 2 - CÂU 12: BBT hàm bậc 2/bậc 1: x: -∞, -3, -1, 1, +∞ | y: -∞ ↗ -4 ↘ -∞ || +∞ ↘ 4 ↗ +∞
+    d2_p1_q12: `
+    <svg viewBox="0 0 540 185" width="510" height="175">
+        <rect x="5" y="5" width="530" height="175" fill="#fff" stroke="#1e293b" stroke-width="1.4"/>
+        <line x1="5" y1="40" x2="535" y2="40" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="5" y1="75" x2="535" y2="75" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="55" y1="5" x2="55" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <!-- Vạch kép tại x = -1 -->
+        <line x1="290" y1="40" x2="290" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="295" y1="40" x2="295" y2="180" stroke="#1e293b" stroke-width="1.2"/>
+        <text x="25" y="28" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="22" y="62" font-family="serif" font-style="italic" font-size="15">y'</text>
+        <text x="25" y="130" font-family="serif" font-style="italic" font-size="15">y</text>
+        <text x="65" y="28" font-family="serif" font-size="14">-∞</text>
+        <text x="172" y="28" font-family="serif" font-size="14">-3</text>
+        <text x="284" y="28" font-family="serif" font-size="14">-1</text>
+        <text x="405" y="28" font-family="serif" font-size="14">1</text>
+        <text x="500" y="28" font-family="serif" font-size="14">+∞</text>
+        <text x="120" y="62" font-family="serif" font-size="15">+</text>
+        <text x="175" y="62" font-family="serif" font-size="14">0</text>
+        <text x="235" y="62" font-family="serif" font-size="18">-</text>
+        <text x="348" y="62" font-family="serif" font-size="18">-</text>
+        <text x="405" y="62" font-family="serif" font-size="14">0</text>
+        <text x="460" y="62" font-family="serif" font-size="15">+</text>
+        <!-- Nhánh trái -->
+        <text x="65" y="165" font-family="serif" font-size="14">-∞</text>
+        <text x="170" y="102" font-family="serif" font-size="14">-4</text>
+        <text x="260" y="165" font-family="serif" font-size="14">-∞</text>
+        <line x1="90" y1="152" x2="162" y2="104" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="192" y1="104" x2="258" y2="152" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <!-- Nhánh phải -->
+        <text x="302" y="98" font-family="serif" font-size="14">+∞</text>
+        <text x="404" y="162" font-family="serif" font-size="14">4</text>
+        <text x="500" y="98" font-family="serif" font-size="14">+∞</text>
+        <line x1="328" y1="102" x2="396" y2="150" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="420" y1="150" x2="495" y2="102" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 2 - PHẦN II - CÂU 1: Đồ thị hàm bậc ba cực đại (-1,3), qua (0,1), cực tiểu (1,-1)
+    d2_p2_q1: `
+    <svg viewBox="0 0 280 250" width="260" height="230">
+        <line x1="20" y1="145" x2="260" y2="145" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="140" y1="235" x2="140" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="100" y1="55" x2="140" y2="55" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="100" y1="55" x2="100" y2="145" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="140" y1="175" x2="180" y2="175" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="180" y1="145" x2="180" y2="175" stroke="#475569" stroke-dasharray="3,3"/>
+        <path d="M 45 235 C 68 110, 84 55, 100 55 C 122 55, 158 175, 180 175 C 196 175, 212 110, 232 20" fill="none" stroke="#1e293b" stroke-width="2.1"/>
+        <circle cx="100" cy="55" r="3" fill="#1e293b"/>
+        <circle cx="140" cy="115" r="2.5" fill="#1e293b"/>
+        <circle cx="180" cy="175" r="3" fill="#1e293b"/>
+        <text x="90" y="162" font-family="serif" font-size="14">-1</text>
+        <text x="125" y="162" font-family="serif" font-style="italic" font-size="14">O</text>
+        <text x="176" y="140" font-family="serif" font-size="14">1</text>
+        <text x="126" y="118" font-family="serif" font-size="14">1</text>
+        <text x="135" y="59" font-family="serif" font-size="14">3</text>
+        <text x="118" y="180" font-family="serif" font-size="14">-1</text>
+        <text x="252" y="158" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="135" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 2 - PHẦN II - CÂU 2: Đồ thị g(x) = (ax+b)/(x-1), TCĐ x = 1, TCN y = 2, qua (0,-1)
+    d2_p2_q2: `
+    <svg viewBox="0 0 280 240" width="260" height="220">
+        <line x1="15" y1="145" x2="265" y2="145" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="115" y1="230" x2="115" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- TCĐ x = 1 (150), TCN y = 2 (95) -->
+        <line x1="150" y1="15" x2="150" y2="230" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,4"/>
+        <line x1="15" y1="95" x2="265" y2="95" stroke="#475569" stroke-width="1.3" stroke-dasharray="4,4"/>
+        <!-- Nhánh trái qua (0,-1)->(115,170) -->
+        <path d="M 18 110 Q 115 118, 140 228" fill="none" stroke="#1e293b" stroke-width="2.1"/>
+        <!-- Nhánh phải -->
+        <path d="M 162 18 Q 182 82, 260 88" fill="none" stroke="#1e293b" stroke-width="2.1"/>
+        <circle cx="115" cy="170" r="3" fill="#1e293b"/>
+        <text x="100" y="90" font-family="serif" font-size="14">2</text>
+        <text x="138" y="140" font-family="serif" font-size="14">1</text>
+        <text x="98" y="160" font-family="serif" font-style="italic" font-size="14">O</text>
+        <text x="92" y="182" font-family="serif" font-size="14">-1</text>
+        <text x="255" y="160" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="102" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 2 - PHẦN II - CÂU 4: Hai cây cột 12m và 28m cách nhau 30m
+    d2_p2_q4: `
+    <svg viewBox="0 0 360 210" width="330" height="195">
+        <rect x="10" y="10" width="340" height="190" fill="#f0fdf4" rx="8"/>
+        <!-- Mặt đất -->
+        <line x1="25" y1="170" x2="335" y2="170" stroke="#15803d" stroke-width="3"/>
+        <!-- Cột trái 12m -->
+        <line x1="45" y1="170" x2="45" y2="95" stroke="#78350f" stroke-width="5"/>
+        <rect x="45" y="158" width="12" height="12" fill="none" stroke="#b91c1c" stroke-width="1.3"/>
+        <!-- Cột phải 28m -->
+        <line x1="315" y1="170" x2="315" y2="25" stroke="#78350f" stroke-width="5"/>
+        <rect x="303" y="158" width="12" height="12" fill="none" stroke="#b91c1c" stroke-width="1.3"/>
+        <!-- Hai dây nối vào C -->
+        <line x1="45" y1="95" x2="135" y2="170" stroke="#475569" stroke-width="1.8"/>
+        <line x1="315" y1="25" x2="135" y2="170" stroke="#475569" stroke-width="1.8"/>
+        <circle cx="135" cy="170" r="4" fill="#dc2626"/>
+        <text x="54" y="140" font-family="serif" font-weight="bold" font-size="14">12 m</text>
+        <text x="272" y="95" font-family="serif" font-weight="bold" font-size="14">28 m</text>
+        <text x="38" y="190" font-family="serif" font-weight="bold" font-size="14">A</text>
+        <text x="132" y="190" font-family="serif" font-weight="bold" font-size="14">C</text>
+        <text x="310" y="190" font-family="serif" font-weight="bold" font-size="14">B</text>
+        <text x="86" y="188" font-family="serif" font-style="italic" font-weight="bold" font-size="15">x</text>
+    </svg>`,
+
+    // ĐỀ 2 - PHẦN III - CÂU 3: Lát cắt địa hình Biển - Đồi - Hồ - Núi
+    d2_p3_q3: `
+    <svg viewBox="0 0 380 210" width="350" height="195">
+        <line x1="15" y1="140" x2="365" y2="140" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="70" y1="195" x2="70" y2="15" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Vùng Hồ tô xám -->
+        <path d="M 185 140 Q 230 198, 275 140 Z" fill="#cbd5e1"/>
+        <!-- Đường cong bậc 3 địa hình -->
+        <path d="M 52 190 C 65 150, 95 65, 125 65 C 155 65, 175 140, 185 140 C 205 182, 255 182, 275 140 C 292 110, 315 55, 328 18" fill="none" stroke="#0f172a" stroke-width="2.2"/>
+        <line x1="328" y1="18" x2="328" y2="140" stroke="#475569" stroke-dasharray="4,4"/>
+        <circle cx="70" cy="140" r="3.5" fill="#0f172a"/>
+        <circle cx="185" cy="140" r="3.5" fill="#0f172a"/>
+        <circle cx="275" cy="140" r="3.5" fill="#0f172a"/>
+        <text x="20" y="132" font-family="serif" font-size="14">Biển</text>
+        <text x="112" y="55" font-family="serif" font-size="14">Đồi</text>
+        <text x="220" y="192" font-family="serif" font-size="14">Hồ</text>
+        <text x="295" y="115" font-family="serif" font-size="14">Núi</text>
+        <text x="74" y="156" font-family="serif" font-style="italic" font-size="14">O</text>
+        <text x="184" y="134" font-family="serif" font-style="italic" font-size="14">A</text>
+        <text x="266" y="134" font-family="serif" font-style="italic" font-size="14">B</text>
+        <text x="352" y="156" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="54" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 2 CÂU 5 & ĐỀ 3 CÂU 1 (PHẦN III): Quầy thu vé QLA1 & QLB1
+    d2_p3_q5: `
+    <svg viewBox="0 0 340 240" width="310" height="220">
+        <line x1="15" y1="165" x2="325" y2="165" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="100" y1="230" x2="100" y2="15" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <!-- Tuyến đường QLA1 (TCĐ x = 2 -> x = 180) -->
+        <line x1="180" y1="15" x2="180" y2="230" stroke="#dc2626" stroke-width="1.8"/>
+        <!-- Tuyến đường QLB1 (TCN y = 2 -> y = 100) -->
+        <line x1="15" y1="100" x2="325" y2="100" stroke="#2563eb" stroke-width="1.8"/>
+        <!-- Đồ thị y = (2x-3)/(x-2) -->
+        <path d="M 196 15 Q 212 85, 320 93" fill="none" stroke="#334155" stroke-width="2"/>
+        <path d="M 18 108 Q 158 115, 172 228" fill="none" stroke="#334155" stroke-width="2"/>
+        <!-- Quầy thu vé -->
+        <rect x="220" y="54" width="22" height="22" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1.5"/>
+        <rect x="205" y="22" width="75" height="22" rx="4" fill="#ecfdf5" stroke="#6ee7b7"/>
+        <text x="212" y="37" font-family="sans-serif" font-size="10" font-weight="bold">Quầy thu vé</text>
+        <rect x="108" y="32" width="66" height="26" rx="4" fill="#fef2f2" stroke="#fca5a5"/>
+        <text x="114" y="48" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#991b1b">Đường QLA1</text>
+        <rect x="22" y="66" width="68" height="26" rx="4" fill="#eff6ff" stroke="#93c5fd"/>
+        <text x="28" y="82" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#1e40af">Đường QLB1</text>
+        <text x="88" y="180" font-family="serif" font-style="italic" font-size="13">O</text>
+    </svg>`,
+
+    // ĐỀ 2 CÂU 6 & ĐỀ 3 CÂU 2 (PHẦN III): Đồ thị chi phí đồng hồ f(x)
+    d2_p3_q6: `
+    <svg viewBox="0 0 280 210" width="260" height="195">
+        <line x1="25" y1="175" x2="265" y2="175" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="65" y1="195" x2="65" y2="15" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Tiệm cận xiên nét đứt -->
+        <line x1="30" y1="135" x2="250" y2="55" stroke="#0f172a" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <!-- Nhánh đồ thị hàm chi phí -->
+        <path d="M 52 18 Q 68 112, 102 102 Q 138 92, 215 18" fill="none" stroke="#0f172a" stroke-width="2.2"/>
+        <circle cx="65" cy="175" r="3" fill="#0f172a"/>
+        <text x="48" y="170" font-family="serif" font-style="italic" font-size="15">O</text>
+        <text x="252" y="168" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="74" y="26" font-family="serif" font-style="italic" font-size="15">y</text>
+    </svg>`,
+
+    // ĐỀ 3 - CÂU 1: BBT x: -∞, -2, 3, +∞ | f(x): +∞ ↘ -3 ↗ 2 ↘ -∞
+    d3_p1_q1: `
+    <svg viewBox="0 0 500 170" width="480" height="160">
+        <rect x="5" y="5" width="490" height="160" fill="#fff" stroke="#1e293b" stroke-width="1.4"/>
+        <line x1="5" y1="38" x2="495" y2="38" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="5" y1="72" x2="495" y2="72" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="65" y1="5" x2="65" y2="165" stroke="#1e293b" stroke-width="1.2"/>
+        <text x="30" y="26" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="20" y="60" font-family="serif" font-style="italic" font-size="15">f'(x)</text>
+        <text x="22" y="122" font-family="serif" font-style="italic" font-size="15">f(x)</text>
+        <text x="75" y="26" font-family="serif" font-size="15">-∞</text>
+        <text x="195" y="26" font-family="serif" font-size="15">-2</text>
+        <text x="335" y="26" font-family="serif" font-size="15">3</text>
+        <text x="450" y="26" font-family="serif" font-size="15">+∞</text>
+        <text x="135" y="60" font-family="serif" font-size="18">-</text>
+        <text x="200" y="60" font-family="serif" font-size="15">0</text>
+        <text x="268" y="60" font-family="serif" font-size="16">+</text>
+        <text x="335" y="60" font-family="serif" font-size="15">0</text>
+        <text x="400" y="60" font-family="serif" font-size="18">-</text>
+        <text x="75" y="95" font-family="serif" font-size="15">+∞</text>
+        <text x="195" y="152" font-family="serif" font-size="15">-3</text>
+        <text x="335" y="95" font-family="serif" font-size="15">2</text>
+        <text x="450" y="152" font-family="serif" font-size="15">-∞</text>
+        <line x1="105" y1="96" x2="188" y2="142" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="220" y1="142" x2="322" y2="96" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="355" y1="96" x2="442" y2="142" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 3 - CÂU 2: Đồ thị trên đoạn [-1; 5]: (-1,-2), (0,1), (2,-2), (4,3), (5,1)
+    d3_p1_q2: `
+    <svg viewBox="0 0 320 230" width="295" height="215">
+        <line x1="15" y1="135" x2="305" y2="135" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="85" y1="215" x2="85" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- Nét đứt -->
+        <line x1="50" y1="135" x2="50" y2="195" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="50" y1="195" x2="155" y2="195" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="155" y1="135" x2="155" y2="195" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="85" y1="45" x2="225" y2="45" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="225" y1="45" x2="225" y2="135" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="85" y1="105" x2="260" y2="105" stroke="#475569" stroke-dasharray="3,3"/>
+        <line x1="260" y1="105" x2="260" y2="135" stroke="#475569" stroke-dasharray="3,3"/>
+        <!-- Đường cong -->
+        <path d="M 50 195 C 60 135, 72 105, 85 105 C 110 105, 132 195, 155 195 C 182 195, 205 45, 225 45 C 242 45, 252 75, 260 105" fill="none" stroke="#1e293b" stroke-width="2.1"/>
+        <text x="38" y="130" font-family="serif" font-size="13">-1</text>
+        <text x="73" y="150" font-family="serif" font-size="13">0</text>
+        <text x="152" y="130" font-family="serif" font-size="13">2</text>
+        <text x="256" y="152" font-family="serif" font-size="13">5</text>
+        <text x="72" y="102" font-family="serif" font-size="13">1</text>
+        <text x="72" y="50" font-family="serif" font-size="13">3</text>
+        <text x="65" y="208" font-family="serif" font-size="13">-2</text>
+        <text x="292" y="128" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="92" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 3 - CÂU 5: BBT hàm trùng phương x: -∞, -1, 0, 1, +∞ | f(x): +∞ ↘ 0 ↗ 3 ↘ 0 ↗ +∞
+    d3_p1_q5: `
+    <svg viewBox="0 0 540 170" width="510" height="160">
+        <rect x="5" y="5" width="530" height="160" fill="#fff" stroke="#1e293b" stroke-width="1.4"/>
+        <line x1="5" y1="38" x2="535" y2="38" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="5" y1="72" x2="535" y2="72" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="65" y1="5" x2="65" y2="165" stroke="#1e293b" stroke-width="1.2"/>
+        <text x="30" y="26" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="20" y="60" font-family="serif" font-style="italic" font-size="15">f'(x)</text>
+        <text x="22" y="122" font-family="serif" font-style="italic" font-size="15">f(x)</text>
+        <text x="75" y="26" font-family="serif" font-size="14">-∞</text>
+        <text x="185" y="26" font-family="serif" font-size="14">-1</text>
+        <text x="295" y="26" font-family="serif" font-size="14">0</text>
+        <text x="405" y="26" font-family="serif" font-size="14">1</text>
+        <text x="500" y="26" font-family="serif" font-size="14">+∞</text>
+        <text x="135" y="60" font-family="serif" font-size="18">-</text>
+        <text x="190" y="60" font-family="serif" font-size="14">0</text>
+        <text x="242" y="60" font-family="serif" font-size="15">+</text>
+        <text x="295" y="60" font-family="serif" font-size="14">0</text>
+        <text x="350" y="60" font-family="serif" font-size="18">-</text>
+        <text x="405" y="60" font-family="serif" font-size="14">0</text>
+        <text x="455" y="60" font-family="serif" font-size="15">+</text>
+        <text x="75" y="95" font-family="serif" font-size="14">+∞</text>
+        <text x="190" y="155" font-family="serif" font-size="14">0</text>
+        <text x="295" y="95" font-family="serif" font-size="14">3</text>
+        <text x="405" y="155" font-family="serif" font-size="14">0</text>
+        <text x="500" y="95" font-family="serif" font-size="14">+∞</text>
+        <line x1="102" y1="98" x2="180" y2="145" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="205" y1="145" x2="285" y2="98" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="310" y1="98" x2="392" y2="145" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="420" y1="145" x2="495" y2="98" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 3 - CÂU 7: BBT x: -∞, 0, 1, +∞ | y: 2 ↘ -4 || +∞ ↘ -2 ↗ +∞
+    d3_p1_q7: `
+    <svg viewBox="0 0 500 175" width="480" height="165">
+        <rect x="5" y="5" width="490" height="165" fill="#fff" stroke="#1e293b" stroke-width="1.4"/>
+        <line x1="5" y1="38" x2="495" y2="38" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="5" y1="72" x2="495" y2="72" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="55" y1="5" x2="55" y2="170" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="220" y1="38" x2="220" y2="170" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="225" y1="38" x2="225" y2="170" stroke="#1e293b" stroke-width="1.2"/>
+        <text x="25" y="26" font-family="serif" font-style="italic" font-size="15">x</text>
+        <text x="22" y="60" font-family="serif" font-style="italic" font-size="15">y'</text>
+        <text x="25" y="125" font-family="serif" font-style="italic" font-size="15">y</text>
+        <text x="68" y="26" font-family="serif" font-size="14">-∞</text>
+        <text x="218" y="26" font-family="serif" font-size="14">0</text>
+        <text x="355" y="26" font-family="serif" font-size="14">1</text>
+        <text x="460" y="26" font-family="serif" font-size="14">+∞</text>
+        <text x="140" y="60" font-family="serif" font-size="18">-</text>
+        <text x="290" y="60" font-family="serif" font-size="18">-</text>
+        <text x="355" y="60" font-family="serif" font-size="14">0</text>
+        <text x="415" y="60" font-family="serif" font-size="15">+</text>
+        <text x="72" y="96" font-family="serif" font-size="14">2</text>
+        <text x="190" y="158" font-family="serif" font-size="14">-4</text>
+        <line x1="90" y1="96" x2="182" y2="148" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <text x="235" y="96" font-family="serif" font-size="14">+∞</text>
+        <text x="350" y="158" font-family="serif" font-size="14">-2</text>
+        <text x="460" y="96" font-family="serif" font-size="14">+∞</text>
+        <line x1="262" y1="98" x2="342" y2="148" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+        <line x1="372" y1="148" x2="452" y2="98" stroke="#1e293b" stroke-width="1.3" marker-end="url(#arr)"/>
+    </svg>`,
+
+    // ĐỀ 3 - CÂU 8: Đồ thị y = (x - 1)/(x + 1), TCĐ x = -1, TCN y = 1, qua (0,-1), (1,0)
+    d3_p1_q8: `
+    <svg viewBox="0 0 280 240" width="260" height="220">
+        <line x1="15" y1="130" x2="265" y2="130" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <line x1="140" y1="230" x2="140" y2="15" stroke="#1e293b" stroke-width="1.4" marker-end="url(#arr)"/>
+        <!-- TCĐ x = -1 (110), TCN y = 1 (100) -->
+        <line x1="110" y1="15" x2="110" y2="230" stroke="#475569" stroke-width="1.1"/>
+        <line x1="15" y1="100" x2="265" y2="100" stroke="#475569" stroke-width="1.1"/>
+        <path d="M 18 90 Q 95 82, 103 18" fill="none" stroke="#3730a3" stroke-width="2"/>
+        <path d="M 118 228 Q 130 112, 260 107" fill="none" stroke="#3730a3" stroke-width="2"/>
+        <text x="93" y="145" font-family="serif" font-size="13">-1</text>
+        <text x="127" y="145" font-family="serif" font-style="italic" font-size="13">O</text>
+        <text x="166" y="145" font-family="serif" font-size="13">1</text>
+        <text x="128" y="96" font-family="serif" font-size="13">1</text>
+        <text x="122" y="168" font-family="serif" font-size="13">-1</text>
+        <text x="255" y="145" font-family="serif" font-style="italic" font-size="14">x</text>
+        <text x="126" y="25" font-family="serif" font-style="italic" font-size="14">y</text>
+    </svg>`,
+
+    // ĐỀ 3 - PHẦN III - CÂU 4: Hàng rào chữ E dọc bờ sông
+    d3_p3_q4: `
+    <svg viewBox="0 0 320 190" width="290" height="175">
+        <!-- Con sông -->
+        <rect x="15" y="15" width="290" height="42" fill="#bae6fd" stroke="#0284c7" stroke-width="1.2"/>
+        <text x="125" y="42" font-family="serif" font-style="italic" font-weight="bold" fill="#0369a1" font-size="15">Bờ sông</text>
+        <!-- Hai khu đất chữ E -->
+        <rect x="55" y="57" width="105" height="95" fill="#dcfce7" stroke="#15803d" stroke-width="3"/>
+        <rect x="160" y="57" width="105" height="95" fill="#dcfce7" stroke="#15803d" stroke-width="3"/>
+        <!-- Xóa viền giáp bờ sông -->
+        <line x1="57" y1="57" x2="263" y2="57" stroke="#bae6fd" stroke-width="3.5"/>
+        <text x="82" y="110" font-family="serif" font-size="13" fill="#14532d">Khu đất 1</text>
+        <text x="187" y="110" font-family="serif" font-size="13" fill="#14532d">Khu đất 2</text>
+        <text x="115" y="172" font-family="serif" font-size="13">60.000 đ/m (ngang)</text>
+    </svg>`,
+
+    // ĐỀ 3 - PHẦN III - CÂU 5: Bạn Đoàn (Parabol) và bạn Kết (Đường tròn)
+    d3_p3_q5: `
+    <svg viewBox="0 0 360 210" width="330" height="195">
+        <!-- Đoạn AB = 16m -->
+        <line x1="95" y1="175" x2="285" y2="175" stroke="#0f172a" stroke-width="2"/>
+        <!-- Đường cao KH = 9m tại H (165, 175) -> K (165, 35) -->
+        <line x1="165" y1="175" x2="165" y2="35" stroke="#0f172a" stroke-width="1.6"/>
+        <!-- Parabol đỉnh A(95, 175) đi qua K(165, 35) -->
+        <path d="M 25 35 Q 95 315, 165 35" fill="none" stroke="#db2777" stroke-width="2"/>
+        <!-- Đường tròn tâm (285, 130) bán kính 45 tiếp xúc AB tại B(285, 175) -->
+        <circle cx="285" cy="130" r="45" fill="none" stroke="#ef4444" stroke-width="2"/>
+        <!-- Điểm Đoàn và Kết -->
+        <circle cx="145" cy="108" r="4.5" fill="#1d4ed8"/>
+        <circle cx="326" cy="112" r="4.5" fill="#1d4ed8"/>
+        <circle cx="95" cy="175" r="3" fill="#0f172a"/>
+        <circle cx="165" cy="175" r="3" fill="#0f172a"/>
+        <circle cx="165" cy="35" r="3" fill="#0f172a"/>
+        <circle cx="285" cy="175" r="3" fill="#0f172a"/>
+        <text x="108" y="112" font-family="serif" font-weight="bold" font-size="13">Đoàn</text>
+        <text x="333" y="108" font-family="serif" font-weight="bold" font-size="13">Kết</text>
+        <text x="90" y="193" font-family="serif" font-style="italic" font-size="14">A</text>
+        <text x="160" y="193" font-family="serif" font-style="italic" font-size="14">H</text>
+        <text x="150" y="34" font-family="serif" font-style="italic" font-size="14">K</text>
+        <text x="282" y="193" font-family="serif" font-style="italic" font-size="14">B</text>
+    </svg>`,
+
+    // ĐỀ 3 - PHẦN III - CÂU 6: Chiến sĩ đặc công bơi qua sông
+    d3_p3_q6: `
+    <svg viewBox="0 0 360 190" width="330" height="175">
+        <!-- Dòng sông -->
+        <rect x="15" y="55" width="330" height="80" fill="#dbeafe" stroke="#1e293b" stroke-width="1.5"/>
+        <!-- Đường chim bay AB = 1000m -->
+        <line x1="75" y1="55" x2="255" y2="135" stroke="#1e293b" stroke-width="1.6"/>
+        <!-- Độ rộng sông 100m -->
+        <line x1="315" y1="55" x2="315" y2="135" stroke="#1e293b" stroke-width="1.3" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <circle cx="75" cy="55" r="4" fill="#0f172a"/>
+        <circle cx="255" cy="135" r="4" fill="#0f172a"/>
+        <!-- Biểu tượng xe tăng mục tiêu tại B -->
+        <rect x="55" y="38" width="40" height="12" rx="4" fill="#334155"/>
+        <rect x="65" y="30" width="18" height="8" rx="2" fill="#1e293b"/>
+        <line x1="83" y1="33" x2="102" y2="31" stroke="#1e293b" stroke-width="2.5"/>
+        <!-- Biểu tượng chiến sĩ tại A -->
+        <circle cx="255" cy="152" r="8" fill="#4d7c0f"/>
+        <rect x="247" y="160" width="16" height="16" rx="3" fill="#3f6212"/>
+        <text x="50" y="22" font-family="serif" font-size="13" font-weight="bold">Mục tiêu</text>
+        <text x="65" y="74" font-family="serif" font-style="italic" font-weight="bold" font-size="14">B</text>
+        <text x="262" y="130" font-family="serif" font-style="italic" font-weight="bold" font-size="14">A</text>
+        <text x="125" y="108" font-family="serif" font-size="14">1000 m</text>
+        <text x="275" y="100" font-family="serif" font-size="14">100 m</text>
+        <text x="145" y="47" font-family="serif" font-size="13">Bờ sông</text>
+        <text x="145" y="153" font-family="serif" font-size="13">Bờ sông</text>
+    </svg>`
+};
+
+// Hàm hỗ trợ hiển thị phân số & căn thức đẹp mắt không cần CDN
+const F = (t, m) => `<span class="frac"><span>${t}</span><span>${m}</span></span>`;
+const R = (b) => `<span class="sqrt"><span class="sqrt-rad">√</span><span class="sqrt-body">${b}</span></span>`;
+
+// ============================================================================
+// CƠ SỞ DỮ LIỆU 3 ĐỀ THI TOÁN 12
+// ============================================================================
+const EXAMS = [
+    // ========================================================================
+    // ĐỀ SỐ 1: NGÀY 21/10/2026
+    // ========================================================================
+    {
+        id: "de1",
+        title: "ĐỀ ÔN KIỂM TRA GIỮA KÌ I - ĐỀ SỐ 1 (Ngày 21/10/2026)",
+        subtitle: "Môn: Toán 12 • Thời gian làm bài: 90 phút",
+        part1: [
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có đồ thị như hình vẽ dưới đây. Điểm cực tiểu của hàm số là:`,
+                svg: SVG_LIB.d1_p1_q1,
+                options: [`x = -1`, `x = 0`, `x = 2`, `x = 3`],
+                ans: 1,
+                explain: `Dựa vào đồ thị, hàm số đạt cực tiểu tại điểm có hoành độ <strong>x = 0</strong> (giá trị cực tiểu y = -1).`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = </span>${F('x<sup>2</sup> - 2x + 5', 'x - 1')}. Mệnh đề nào dưới đây đúng?`,
+                options: [
+                    `Hàm số nghịch biến trên khoảng (-1; 1) ∪ (1; 3).`,
+                    `Hàm số nghịch biến trên khoảng (-1; 3) \\ {1}.`,
+                    `Hàm số nghịch biến trên mỗi khoảng (-1; 1) và (1; 3).`,
+                    `Hàm số nghịch biến trên khoảng (-∞; -1).`
+                ],
+                ans: 2,
+                explain: `Ta có <span class="math">y' = </span>${F('x<sup>2</sup> - 2x - 3', '(x - 1)<sup>2</sup>')} &lt; 0 ⇔ x ∈ (-1; 1) hoặc x ∈ (1; 3). Vậy hàm số nghịch biến trên mỗi khoảng (-1; 1) và (1; 3).`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có bảng biến thiên như sau. Giá trị cực đại của hàm số đã cho bằng:`,
+                svg: SVG_LIB.d1_p1_q3,
+                options: [`0`, `-5`, `4`, `3`],
+                ans: 2,
+                explain: `Từ bảng biến thiên, tại x = 0 hàm số đạt giá trị cực đại <span class="math">y<sub>CĐ</sub> = 4</span>.`
+            },
+            {
+                q: `Giá trị lớn nhất của hàm số <span class="math">y = </span>${F('x<sup>3</sup>', '3')} + 2x<sup>2</sup> - 5x + 1 trên đoạn [-1; 3] bằng:`,
+                options: [F('23', '3'), `13`, `1`, F('5', '3')],
+                ans: 1,
+                explain: `Ta có y' = x² + 4x - 5 = 0 ⇒ x = 1 ∈ [-1; 3]. Tính y(-1) = 23/3; y(1) = -5/3; y(3) = 13. Vậy GTLN bằng <strong>13</strong>.`
+            },
+            {
+                q: `Giá trị lớn nhất của hàm số <span class="math">y = </span>${R('4 - x<sup>2</sup>')} là:`,
+                options: [`2`, `0`, `4`, `1`],
+                ans: 0,
+                explain: `Tập xác định D = [-2; 2]. Vì x² ≥ 0 nên 4 - x² ≤ 4 ⇒ ${R('4 - x<sup>2</sup>')} ≤ 2. GTLN bằng <strong>2</strong> khi x = 0.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có đồ thị như hình vẽ bên. Tổng giá trị lớn nhất và giá trị nhỏ nhất của hàm số trên đoạn [-1; 3] bằng:`,
+                svg: SVG_LIB.d1_p1_q6,
+                options: [`1`, `-2`, `4`, `2`],
+                ans: 1,
+                explain: `Trên đoạn [-1; 3], giá trị lớn nhất M = 1 (tại x = 0 và x = 3) và giá trị nhỏ nhất m = -3 (tại x = -1 và x = 2). Tổng M + m = 1 + (-3) = <strong>-2</strong>.`
+            },
+            {
+                q: `Tiệm cận xiên của đồ thị hàm số <span class="math">y = </span>${F('x<sup>2</sup> - x + 2', 'x + 1')} có phương trình là:`,
+                options: [`y = x - 2`, `y = x - 1`, `y = x + 1`, `x = -1`],
+                ans: 0,
+                explain: `Chia đa thức: <span class="math">y = x - 2 + </span>${F('4', 'x + 1')}. Suy ra tiệm cận xiên là đường thẳng <strong>y = x - 2</strong>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có bảng biến thiên như sau. Số đường tiệm cận của đồ thị hàm số đã cho là:`,
+                svg: SVG_LIB.d1_p1_q8,
+                options: [`3`, `1`, `4`, `2`],
+                ans: 0,
+                explain: `Đồ thị có 2 đường tiệm cận đứng là x = -3, x = 3 và 1 đường tiệm cận ngang là y = 0 (khi x → ±∞). Tổng cộng có <strong>3</strong> đường tiệm cận.`
+            },
+            {
+                q: `Biết đường thẳng <span class="math">y = x - 1</span> cắt đồ thị hàm số <span class="math">y = </span>${F('-x + 5', 'x - 2')} tại hai điểm phân biệt có hoành độ là <span class="math">x<sub>1</sub>, x<sub>2</sub></span>. Giá trị <span class="math">x<sub>1</sub> + x<sub>2</sub></span> bằng:`,
+                options: [`-1`, `3`, `2`, `1`],
+                ans: 2,
+                explain: `Phương trình hoành độ giao điểm: (x - 1)(x - 2) = -x + 5 (x ≠ 2) ⇔ x² - 2x - 3 = 0. Theo định lí Vi-ét: <span class="math">x<sub>1</sub> + x<sub>2</sub> = 2</span>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có đạo hàm <span class="math">f'(x) = (x - 2)(x + 5)(x + 1)<sup>3</sup>, ∀x ∈ ℝ</span>. Mệnh đề nào sau đây đúng?`,
+                options: [
+                    `Hàm số đồng biến trên khoảng (-1; 2).`,
+                    `Hàm số đồng biến trên khoảng (-1; +∞).`,
+                    `Hàm số nghịch biến trên khoảng (-∞; -5).`,
+                    `Hàm số nghịch biến trên khoảng (-5; -1).`
+                ],
+                ans: 2,
+                explain: `Xét dấu f'(x) qua các nghiệm đơn/bội lẻ -5, -1, 2: Trên (-∞; -5) thì f'(x) &lt; 0 nên hàm số nghịch biến trên khoảng (-∞; -5).`
+            },
+            {
+                q: `Đường cong dưới đây là đồ thị hàm số nào trong các hàm số dưới đây?`,
+                svg: SVG_LIB.d1_p1_q11,
+                options: [
+                    `y = ${F('x<sup>2</sup> - x - 1', 'x + 2')}`,
+                    `y = ${F('x<sup>2</sup> - x - 1', 'x - 2')}`,
+                    `y = ${F('x - 1', 'x - 2')}`,
+                    `y = ${F('x<sup>2</sup> - x - 2', 'x - 2')}`
+                ],
+                ans: 1,
+                explain: `Đồ thị có tiệm cận đứng x = 2, tiệm cận xiên y = x + 1 và đi qua (0; 0.5) nên là hàm số <span class="math">y = </span>${F('x<sup>2</sup> - x - 1', 'x - 2')}.`
+            },
+            {
+                q: `Cho đường cong hình vẽ bên là đồ thị của một hàm số trong bốn hàm số được liệt kê ở bốn phương án A, B, C, D dưới đây. Hỏi đó là hàm số nào?`,
+                svg: SVG_LIB.d1_p1_q12,
+                options: [
+                    `y = ${F('2x + 1', 'x - 1')}`,
+                    `y = ${F('2x + 3', 'x + 1')}`,
+                    `y = ${F('2x - 1', 'x + 1')}`,
+                    `y = ${F('2x - 2', 'x - 1')}`
+                ],
+                ans: 2,
+                explain: `Đồ thị có TCĐ x = -1, TCN y = 2 và cắt trục tung tại (0; -1) nên hàm số là <span class="math">y = </span>${F('2x - 1', 'x + 1')}.`
+            }
+        ],
+        part2: [
+            {
+                q: `Cho hàm số <span class="math">y = f(x) = </span>${F('-x<sup>2</sup> + 2x - 1', 'x + 2')}, có đồ thị (C).`,
+                items: [
+                    { text: `a) Hàm số đồng biến trên khoảng (-5; 1).`, ans: false },
+                    { text: `b) Đồ thị hàm số có điểm cực tiểu là (-5; 12).`, ans: true },
+                    { text: `c) Đồ thị hàm số có 1 đường tiệm cận xiên có dạng y = ax + b trong đó a > b.`, ans: false },
+                    { text: `d) Gọi M là điểm bất kì thuộc đồ thị (C). Tích khoảng cách từ điểm M đến hai tiệm cận của đồ thị (C) bằng ${F('9' + R('2'), '2')}.`, ans: true }
+                ],
+                explain: `• Ta có <span class="math">y = -x + 4 - </span>${F('9', 'x + 2')}, đạo hàm <span class="math">y' = -1 + </span>${F('9', '(x+2)<sup>2</sup>')} = 0 ⇔ x = -5 hoặc x = 1.<br>
+                • a) Sai vì x = -2 ∉ TXĐ.<br>
+                • b) Đúng vì tại x = -5 hàm số đạt cực tiểu và f(-5) = 12.<br>
+                • c) Sai vì tiệm cận xiên là y = -x + 4 có a = -1 &lt; b = 4.<br>
+                • d) Đúng vì tích khoảng cách từ M(x₀; y₀) đến TCĐ (x + 2 = 0) và TCX (x + y - 4 = 0) là |x₀ + 2| · ${F('|-9/(x₀+2)|', R('2'))} = ${F('9' + R('2'), '2')}.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = </span>${F('ax + 3', 'x + b')} với <span class="math">a, b ∈ ℝ</span> và có bảng biến thiên như sau:`,
+                svg: SVG_LIB.d1_p2_q2,
+                items: [
+                    { text: `a) Hàm số đã cho nghịch biến trên (2; +∞).`, ans: true },
+                    { text: `b) Giá trị lớn nhất của hàm số trên đoạn [4; 10] là max f(x) = f(10).`, ans: false },
+                    { text: `c) Đồ thị hàm số có hai tiệm cận.`, ans: true },
+                    { text: `d) a + b = -3.`, ans: true }
+                ],
+                explain: `• a) Đúng theo BBT.<br>
+                • b) Sai vì hàm nghịch biến trên [4; 10] nên GTLN đạt tại f(4).<br>
+                • c) Đúng: TCĐ x = 2 và TCN y = -1.<br>
+                • d) Đúng: Từ TCĐ x = -b = 2 ⇒ b = -2; TCN y = a = -1 ⇒ a + b = -3.`
+            },
+            {
+                q: `Giả sử doanh số bán hàng (tính bằng số sản phẩm) của một sản phẩm mới được cho bởi hàm số <span class="math">f(t) = </span>${F('500', '1 + 5e<sup>-2t</sup>')}, <span class="math">t ≥ 0</span>, trong đó thời gian <span class="math">t</span> được tính bằng năm kể từ khi phát hành sản phẩm mới. Khi đó hàm số <span class="math">f'(t)</span> sẽ biểu thị tốc độ bán hàng.`,
+                items: [
+                    { text: `a) Đường thẳng y = 0 là một đường tiệm cận ngang của đồ thị hàm số y = f(t).`, ans: false },
+                    { text: `b) f(0) < f(1).`, ans: true },
+                    { text: `c) Hàm số f(t) có đạo hàm f'(t) = ${F('50000', '(1 + e<sup>-2t</sup>)<sup>2</sup>')}.`, ans: false },
+                    { text: `d) Tốc độ bán hàng của sản phẩm đạt cực đại sau khoảng 8 năm.`, ans: false }
+                ],
+                explain: `• a) Sai vì t ≥ 0 và lim(t→+∞) f(t) = 500.<br>
+                • b) Đúng vì hàm f(t) đồng biến trên [0; +∞) nên f(0) &lt; f(1).<br>
+                • c) Sai vì <span class="math">f'(t) = </span>${F('5000e<sup>-2t</sup>', '(1 + 5e<sup>-2t</sup>)<sup>2</sup>')}.<br>
+                • d) Sai vì f''(t) = 0 khi 5e<sup>-2t</sup> = 1 ⇔ t = 0.5 ln(5) ≈ 0.8 năm.`
+            },
+            {
+                q: `Cho hàm số bậc ba <span class="math">y = f(x) = ax<sup>3</sup> + bx<sup>2</sup> + cx + d</span> có đồ thị như hình vẽ sau:`,
+                svg: SVG_LIB.d1_p2_q4,
+                items: [
+                    { text: `a) Hàm số y = f(x) đồng biến trong khoảng (-2; 0).`, ans: false },
+                    { text: `b) Điểm cực tiểu của đồ thị hàm số y = f(x) là (0; -2).`, ans: true },
+                    { text: `c) Đường thẳng đi qua 2 điểm cực trị của đồ thị hàm số có phương trình là y = -2x - 2.`, ans: true },
+                    { text: `d) Có 8 giá trị nguyên của tham số m để phương trình 2f(x) = m có 3 nghiệm phân biệt.`, ans: false }
+                ],
+                explain: `• a) Sai vì trên (-2; 0) đồ thị đi xuống nên hàm số nghịch biến.<br>
+                • b) Đúng, điểm cực tiểu của đồ thị là (0; -2).<br>
+                • c) Đúng, đường thẳng qua (-2; 2) và (0; -2) là y = -2x - 2.<br>
+                • d) Sai vì 2f(x) = m ⇔ f(x) = m/2 có 3 nghiệm phân biệt khi -2 &lt; m/2 &lt; 2 ⇔ -4 &lt; m &lt; 4, có 7 giá trị nguyên của m.`
+            }
+        ],
+        part3: [
+            {
+                q: `Biết đường thẳng đi qua hai điểm cực trị của đồ thị của hàm số <span class="math">y = -x<sup>3</sup> + 3x<sup>2</sup> + 9x + 1</span> là <span class="math">ax + by + 4 = 0</span>. Tính <span class="math">a + 2b</span>.`,
+                ans: [6],
+                explain: `Ta có y' = -3x² + 6x + 9. Chia y cho y' được phần dư là đường thẳng đi qua 2 điểm cực trị: y = 8x + 4 ⇔ 8x - y + 4 = 0. Suy ra a = 8, b = -1 ⇒ a + 2b = 8 + 2(-1) = <strong>6</strong>.`
+            },
+            {
+                q: `Gọi <span class="math">M, m</span> lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của hàm số <span class="math">f(x) = </span>${F('2x<sup>3</sup> + 4', 'x')} trên nửa khoảng <span class="math">(1/2; 4]</span>. Tính giá trị <span class="math">M + m</span>.`,
+                ans: [39],
+                explain: `Ta có f(x) = 2x² + 4/x ⇒ f'(x) = 4x - 4/x² = 0 ⇔ x = 1 ∈ (1/2; 4]. Tại x = 1 thì m = f(1) = 6; tại x = 4 thì M = f(4) = 33. Vậy M + m = 33 + 6 = <strong>39</strong>.`
+            },
+            {
+                q: `Người ta giăng lưới để nuôi riêng một loại cá ở một góc hồ (xem như là góc vuông). Biết rằng lưới được giăng theo một đường thẳng từ một vị trí trên bờ ngang đến một vị trí trên bờ dọc và phải đi qua một cái cọc đã cắm sẵn ở vị trí A (như hình vẽ). Hỏi diện tích khu nuôi cá riêng nhỏ nhất có thể giăng là bao nhiêu m<sup>2</sup>, biết rằng khoảng cách từ cọc đến bờ ngang là 4m và khoảng cách từ cọc đến bờ dọc là 10m.`,
+                svg: SVG_LIB.d1_p3_q3,
+                ans: [80],
+                explain: `Gọi phương trình đường thẳng qua A(10; 4) cắt hai trục tại (a; 0) và (0; b) là 10/a + 4/b = 1 (a > 10, b > 4). Áp dụng BĐT Cauchy: 1 = 10/a + 4/b ≥ 2${R('40/(ab)')} ⇒ ab ≥ 160 ⇒ S = 1/2 ab ≥ <strong>80</strong> (m²).`
+            },
+            {
+                q: `Một công ty xây dựng muốn làm một đường ống dẫn từ một điểm A trên bờ đến một điểm B trên một hòn đảo (như hình vẽ). Hòn đảo cách bờ biển 6km. Giá để xây đường ống trên bờ là 50.000 USD mỗi km, và 130.000 USD mỗi km để xây dưới nước. B' là điểm trên bờ biển sao cho BB' vuông góc với bờ biển. Khoảng cách từ A đến B' là 9km. Vị trí C trên đoạn AB' sao cho khi nối ống theo ACB thì số tiền ít nhất. Khi đó C cách A một đoạn bằng bao nhiêu km?`,
+                svg: SVG_LIB.d1_p3_q4,
+                ans: [6.5],
+                explain: `Đặt B'C = x (0 ≤ x ≤ 9) ⇒ AC = 9 - x. Chi phí C(x) = 50(9 - x) + 130${R('x<sup>2</sup> + 36')}. Giải C'(x) = 0 ⇔ 130x / ${R('x<sup>2</sup> + 36')} = 50 ⇔ x = 2.5 km. Khi đó khoảng cách từ C đến A là 9 - 2.5 = <strong>6.5</strong> (km).`
+            },
+            {
+                q: `Hằng ngày mực nước của một hồ thuỷ điện lên và xuống theo lượng nước mưa và các suối nước đổ về hồ. Tính từ thời điểm 8 giờ sáng, độ sâu của mực nước trong hồ tính theo mét và lên xuống theo thời gian <span class="math">t</span> (giờ) trong ngày cho bởi công thức <span class="math">h(t) = -</span>${F('1', '3')}<span class="math">t<sup>3</sup> + 5t<sup>2</sup> + 24t (t ≥ 0)</span>. Biết rằng phải thông báo cho nhân dân phải di dời trước khi xả nước theo quy định trước 5 giờ. Hỏi cần thông báo cho người dân di dời trước khi xả nước sau mấy giờ tính từ 8 giờ sáng (hoặc lúc mấy giờ trong ngày)? Biết rằng mực nước trong hồ phải lên cao nhất mới xả nước.`,
+                ans: [7, 15],
+                explain: `Ta có h'(t) = -t² + 10t + 24 = 0 ⇒ t = 12 (giờ sau 8h sáng). Vì thông báo trước 5 giờ nên thời gian tính từ 8h sáng là t = 12 - 5 = <strong>7</strong> (giờ), tức lúc 8 + 7 = <strong>15</strong> giờ chiều (hệ thống ghi nhận đúng cả 7 và 15).`
+            },
+            {
+                q: `Anh Trọng quyết định mua 2 cây đào và 1 cây mai tại một nhà vườn để trang trí nhà dịp Tết Nguyên Đán. Giá mỗi cây đào là 1.000.000 đồng, giá mỗi cây mai là 2.000.000 đồng. Để kích cầu, nhà vườn đưa ra chính sách: nếu khách hàng mua thêm <span class="math">x</span> cây cảnh nhỏ (<span class="math">x</span> là số nguyên không âm) với giá 50.000 đồng/cây, thì toàn bộ đơn hàng sẽ được vận chuyển về nhà với mức phí tính theo hàm số: <span class="math">f(x) = x<sup>2</sup> - 100x + 3000</span> (đơn vị: nghìn đồng). Biết rằng số lượng cây mua thêm không vượt quá 40 cây để đảm bảo tải trọng xe (<span class="math">0 ≤ x ≤ 40</span>). Tổng chi phí (tiền mua cây và tiền vận chuyển) thấp nhất mà Anh Trọng cần bỏ ra là bao nhiêu nghìn đồng?`,
+                ans: [6375],
+                explain: `Tổng chi phí (nghìn đồng): T(x) = 4000 + 50x + (x² - 100x + 3000) = x² - 50x + 7000 = (x - 25)² + 6375. Với x = 25 ∈ [0; 40], tổng chi phí thấp nhất là <strong>6375</strong> (nghìn đồng).`
+            }
+        ]
+    },
+
+    // ========================================================================
+    // ĐỀ SỐ 2: NGÀY 23/10/2026
+    // ========================================================================
+    {
+        id: "de2",
+        title: "ĐỀ ÔN KIỂM TRA GIỮA KÌ I - ĐỀ SỐ 2 (Ngày 23/10/2026)",
+        subtitle: "Môn: Toán 12 • Thời gian làm bài: 90 phút",
+        part1: [
+            {
+                q: `Hàm số <span class="math">y = f(x)</span> liên tục trên ℝ có bảng biến thiên của hàm số đạo hàm <span class="math">y = f'(x)</span> như hình dưới. Số điểm cực trị của hàm số <span class="math">y = f(x)</span> là:`,
+                svg: SVG_LIB.d2_p1_q1,
+                options: [`4`, `1`, `2`, `3`],
+                ans: 2,
+                explain: `Đường thẳng y = 0 cắt đồ thị f'(x) tại 3 điểm, trong đó tại x = 0 thì f'(x) không đổi dấu (tiếp xúc), chỉ đổi dấu khi đi qua 2 nghiệm ngoài cùng. Vậy f(x) có <strong>2</strong> điểm cực trị.`
+            },
+            {
+                q: `Hàm số <span class="math">y = -x<sup>4</sup> + 8x<sup>2</sup> + 6</span> đồng biến trên khoảng nào dưới đây?`,
+                options: [
+                    `(-2; 0) và (2; +∞)`,
+                    `(-∞; -2) và (0; 2)`,
+                    `(-∞; -2) và (2; +∞)`,
+                    `(-2; 2)`
+                ],
+                ans: 1,
+                explain: `Ta có y' = -4x³ + 16x = 0 ⇔ x = 0, x = ±2. Bảng xét dấu y' cho thấy y' > 0 trên các khoảng <strong>(-∞; -2) và (0; 2)</strong>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có bảng biến thiên như sau. Hàm số đã cho nghịch biến trên khoảng nào dưới đây?`,
+                svg: SVG_LIB.d2_p1_q3,
+                options: [`(-2; 4)`, `(-2; +∞)`, `(-1; 3)`, `(-∞; -1)`],
+                ans: 2,
+                explain: `Dựa vào BBT, y' &lt; 0 trên khoảng <strong>(-1; 3)</strong>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có bảng biến thiên như sau. Giá trị cực tiểu của hàm số đã cho bằng:`,
+                svg: SVG_LIB.d2_p1_q4,
+                options: [`-2`, `1`, `2`, `-1`],
+                ans: 0,
+                explain: `Từ BBT, giá trị cực tiểu của hàm số là <strong>-2</strong> (đạt tại x = 2).`
+            },
+            {
+                q: `Trên đoạn [-2; 1], hàm số <span class="math">y = x<sup>3</sup> - 3x<sup>2</sup> - 1</span> đạt giá trị lớn nhất tại điểm:`,
+                options: [`x = -1`, `x = -2`, `x = 1`, `x = 0`],
+                ans: 3,
+                explain: `Ta có y' = 3x² - 6x = 0 ⇒ x = 0 ∈ [-2; 1]. Tính y(-2) = -21, y(0) = -1, y(1) = -3. Vậy hàm số đạt GTLN tại <strong>x = 0</strong>.`
+            },
+            {
+                q: `Giá trị nhỏ nhất của hàm số <span class="math">y = </span>${F('2x - 1', 'x + 1')} trên đoạn [1; 2] là:`,
+                options: [`-1`, F('1', '2'), `1`, `-` + F('1', '2')],
+                ans: 1,
+                explain: `Hàm số đồng biến trên [1; 2] vì y' = 3/(x+1)² > 0. Do đó GTNN trên [1; 2] là y(1) = <strong>1/2</strong>.`
+            },
+            {
+                q: `Tiệm cận ngang của đồ thị hàm số <span class="math">y = f(x) = </span>${F('2x - 1', 'x + 3')} có phương trình là:`,
+                options: [`x = 1`, `y = 1`, `x = 2`, `y = 2`],
+                ans: 3,
+                explain: `Ta có lim(x→±∞) f(x) = 2 nên tiệm cận ngang là <strong>y = 2</strong>.`
+            },
+            {
+                q: `Tiệm cận đứng của đồ thị hàm số <span class="math">y = f(x) = </span>${F('2x - 1', 'x + 3')} có phương trình là:`,
+                options: [`x = -3`, `y = 1`, `x = 2`, `y = 2`],
+                ans: 0,
+                explain: `Mẫu số x + 3 = 0 ⇔ <strong>x = -3</strong> là tiệm cận đứng.`
+            },
+            {
+                q: `Đường cong trong hình vẽ là đồ thị của hàm số nào trong bốn hàm số ở các phương án A, B, C, D sau đây?`,
+                svg: SVG_LIB.d2_p1_q9,
+                options: [
+                    `y = ${F('2x - 2', 'x + 1')}`,
+                    `y = ${F('-x + 2', 'x + 2')}`,
+                    `y = ${F('-2x + 2', 'x + 1')}`,
+                    `y = ${F('x - 2', 'x + 1')}`
+                ],
+                ans: 2,
+                explain: `Đồ thị có TCĐ x = -1, TCN y = -2 và đi qua (0; 2), (1; 0) nên là hàm số <span class="math">y = </span>${F('-2x + 2', 'x + 1')}.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = </span>${F('ax - b', 'x - 1')} có đồ thị như hình vẽ. Khẳng định nào sau đây là đúng?`,
+                svg: SVG_LIB.d2_p1_q10,
+                options: [`b < a < 0`, `0 < a < b`, `b < 0 < a`, `0 < b < a`],
+                ans: 0,
+                explain: `TCN y = a = -1 &lt; 0. Giao với Oy tại (0; b) ⇒ b = -2. Vậy <strong>b &lt; a &lt; 0</strong>.`
+            },
+            {
+                q: `Đồ thị trong hình bên dưới là đồ thị của hàm số:`,
+                svg: SVG_LIB.d2_p1_q11,
+                options: [
+                    `y = x - ${F('1', 'x + 1')}`,
+                    `y = ${F('2x + 1', 'x + 1')}`,
+                    `y = ${F('x<sup>2</sup> - x + 1', 'x + 1')}`,
+                    `y = ${F('x<sup>2</sup> + x + 1', 'x + 1')}`
+                ],
+                ans: 3,
+                explain: `Đồ thị có TCĐ x = -1, TCX y = x và đạt cực đại tại (-2; -3) nên là hàm số <span class="math">y = </span>${F('x<sup>2</sup> + x + 1', 'x + 1')}.`
+            },
+            {
+                q: `Bảng biến thiên trong hình dưới là của một hàm số trong bốn hàm số được liệt kê ở bốn phương án A, B, C, D dưới đây. Hỏi hàm số đó là hàm số nào?`,
+                svg: SVG_LIB.d2_p1_q12,
+                options: [
+                    `y = ${F('x<sup>2</sup> - 2x', 'x + 1')}`,
+                    `y = ${F('x<sup>2</sup> + 3x', 'x + 1')}`,
+                    `y = ${F('1 - x<sup>2</sup>', 'x')}`,
+                    `y = ${F('x<sup>2</sup> + 2x + 5', 'x + 1')}`
+                ],
+                ans: 3,
+                explain: `TCĐ x = -1, cực trị tại x = -3 (y = -4) và x = 1 (y = 4) trùng khớp với hàm số <span class="math">y = </span>${F('x<sup>2</sup> + 2x + 5', 'x + 1')}.`
+            }
+        ],
+        part2: [
+            {
+                q: `Cho hàm số bậc ba <span class="math">y = f(x)</span> xác định trên ℝ có đồ thị như hình dưới đây.`,
+                svg: SVG_LIB.d2_p2_q1,
+                items: [
+                    { text: `a) Hàm số đồng biến trên (-∞; -1) và đạt cực tiểu tại x = 1.`, ans: true },
+                    { text: `b) Trên tập xác định, hàm số có giá trị lớn nhất bằng 3 và giá trị nhỏ nhất bằng -1.`, ans: false },
+                    { text: `c) lim(x→-∞) f(x) = -∞ và lim(x→+∞) f(x) = +∞.`, ans: true },
+                    { text: `d) Phương trình f(x) = 2 có đúng hai nghiệm thực phân biệt.`, ans: false }
+                ],
+                explain: `• a) Đúng theo đồ thị.<br>
+                • b) Sai vì hàm bậc 3 trên ℝ không có GTLN và GTNN (3 và -1 là giá trị cực đại, cực tiểu).<br>
+                • c) Đúng.<br>
+                • d) Sai vì đường thẳng y = 2 nằm giữa -1 và 3 nên cắt đồ thị tại 3 điểm phân biệt.`
+            },
+            {
+                q: `Cho họ hàm số <span class="math">g(x) = </span>${F('ax + b', 'x - 1')} với <span class="math">a, b ∈ ℝ, a + b ≠ 0</span>.`,
+                svg: SVG_LIB.d2_p2_q2,
+                items: [
+                    { text: `a) Với a = 3, b = 1, hàm số nghịch biến trên từng khoảng (-∞; 1), (1; +∞) và không có cực trị.`, ans: true },
+                    { text: `b) Với a = -2, b = 1 trên [2; 4], giá trị lớn nhất của hàm số là 5 và giá trị nhỏ nhất là 3.`, ans: false },
+                    { text: `c) Với a = 2, b = -1, đồ thị có tiệm cận đứng x = -1 và tiệm cận ngang y = 2.`, ans: false },
+                    { text: `d) Nếu hàm số có đồ thị như hình bên dưới thì P = a² + 3b = 7.`, ans: true }
+                ],
+                explain: `• a) Đúng vì g'(x) = -(a+b)/(x-1)² = -4/(x-1)² &lt; 0.<br>
+                • b) Sai vì g(2) = -3 và g(4) = -7/3.<br>
+                • c) Sai vì TCĐ là x = 1.<br>
+                • d) Đúng: TCN y = a = 2; đồ thị qua (0; -1) ⇒ -b = -1 ⇒ b = 1. Vậy P = 2² + 3(1) = 7.`
+            },
+            {
+                q: `Cho hàm số <span class="math">h(x) = </span>${F('2x<sup>2</sup> + 1', 'x<sup>2</sup> + 1')} có đồ thị (C).`,
+                items: [
+                    { text: `a) Hàm số nghịch biến trên (-∞; 0) và có giá trị cực tiểu bằng 1.`, ans: true },
+                    { text: `b) Trên [-1; 2], hàm số có GTLN bằng 3/2 và GTNN bằng 1.`, ans: false },
+                    { text: `c) Đường thẳng y = m cắt (C) tại hai điểm phân biệt khi và chỉ khi 1 < m < 2.`, ans: true },
+                    { text: `d) Tiếp tuyến của (C) tại điểm có hoành độ 1 là y = x + 1/2.`, ans: false }
+                ],
+                explain: `• Ta có <span class="math">h'(x) = </span>${F('2x', '(x<sup>2</sup>+1)<sup>2</sup>')}.<br>
+                • a) Đúng, h(0) = 1 là cực tiểu.<br>
+                • b) Sai vì trên [-1; 2], GTLN là h(2) = 9/5.<br>
+                • c) Đúng vì 1 ≤ h(x) &lt; 2 và h(x) chẵn.<br>
+                • d) Sai vì h'(1) = 1/2, h(1) = 3/2 ⇒ tiếp tuyến là y = 1/2 x + 1.`
+            },
+            {
+                q: `Có hai cây cột, một cây cao 12m và một cây cao 28m đứng cách nhau 30m. Chúng được giữ bằng hai sợi dây, gắn vào một cọc duy nhất nối từ mặt đất đến đỉnh mỗi cột. Gọi <span class="math">x</span> là khoảng cách từ cột cao 12m đến cọc.`,
+                svg: SVG_LIB.d2_p2_q4,
+                items: [
+                    { text: `a) Để tổng chiều dài của dây ngắn nhất thì x ∈ (0; 30).`, ans: true },
+                    { text: `b) Chiều dài sợi dây nối từ cọc đến đỉnh cột cao 28m là ${R('1684 + x<sup>2</sup>')}.`, ans: false },
+                    { text: `c) Tổng chiều dài của dây là ${R('144 + x<sup>2</sup>')} + ${R('1684 - 60x + x<sup>2</sup>')}.`, ans: true },
+                    { text: `d) Tổng chiều dài ngắn nhất của dây là 48,5m.`, ans: false }
+                ],
+                explain: `• Chiều dài dây thứ nhất là ${R('12<sup>2</sup> + x<sup>2</sup>')} = ${R('144 + x<sup>2</sup>')}.<br>
+                • Chiều dài dây thứ hai là ${R('28<sup>2</sup> + (30 - x)<sup>2</sup>')} = ${R('1684 - 60x + x<sup>2</sup>')}.<br>
+                • Tổng chiều dài nhỏ nhất đạt tại x = 9m và bằng ${R('30<sup>2</sup> + (12+28)<sup>2</sup>')} = 50m.`
+            }
+        ],
+        part3: [
+            {
+                q: `Cho hàm số <span class="math">y = x<sup>3</sup> - 3x<sup>2</sup> - 3x + 4</span>. Đường thẳng đi qua hai điểm cực trị của đồ thị có phương trình <span class="math">y = ax + b</span>. Tính <span class="math">P = a<sup>2</sup> + b<sup>2</sup></span>.`,
+                ans: [17],
+                explain: `Ta có y' = 3x² - 6x - 3. Chia y cho y' được y = (1/3 x - 1/3)y' - 4x + 1. Vậy đường thẳng qua 2 điểm cực trị là y = -4x + 1 ⇒ a = -4, b = 1 ⇒ P = (-4)² + 1² = <strong>17</strong>.`
+            },
+            {
+                q: `Gọi <span class="math">M, m</span> lần lượt là GTLN, GTNN của hàm số <span class="math">u(x) = -x<sup>2</sup> + 10x - 12 ln x</span> trên đoạn [1; 3]. Tính <span class="math">P = M + m</span> (làm tròn đến hàng phần mười).`,
+                ans: [16.8],
+                explain: `Ta có u'(x) = -2x + 10 - 12/x = 0 ⇔ x² - 5x + 6 = 0 ⇔ x = 2 hoặc x = 3. Tính u(1) = 9; u(2) = 16 - 12 ln 2 ≈ 7.682; u(3) = 21 - 12 ln 3 ≈ 7.817. Suy ra M = 9, m = 16 - 12 ln 2 ⇒ M + m = 25 - 12 ln 2 ≈ <strong>16.8</strong>.`
+            },
+            {
+                q: `Lát cắt ngang của một vùng đất ven biển được mô hình hóa thành một hàm số bậc ba <span class="math">y = f(x)</span> có đồ thị như hình vẽ (đơn vị trên các trục là km). Biết khoảng cách hai bên chân đồi <span class="math">OA = 15/8 km</span>, độ rộng của hồ <span class="math">AB = 9/8 km</span> và chiều cao của ngọn đồi là 243m. Tìm độ sâu của hồ tại điểm sâu nhất (kết quả tính theo đơn vị mét).`,
+                svg: SVG_LIB.d2_p3_q3,
+                ans: [75],
+                explain: `Hàm số có nghiệm tại O(0), A(15/8) và B(15/8 + 9/8 = 3) nên f(x) = a·x(x - 15/8)(x - 3). Đạt cực đại tại x₁ = 3/4 và cực tiểu tại x₂ = 5/2. Tỉ số |f(x₂)/f(x₁)| = 25/81 ⇒ Độ sâu hồ = 243 × (25/81) = <strong>75</strong> (mét).`
+            },
+            {
+                q: `Một công ty sản xuất dụng cụ thể thao nhận được một đơn đặt hàng sản xuất 300.000 quả bóng Pickleball. Công ty này sở hữu một số máy móc, mỗi máy có thể sản xuất được 60 quả bóng trong một giờ. Chi phí thiết lập máy này là 125 ngàn đồng cho mỗi máy. Khi được thiết lập, hoạt động sản xuất sẽ hoàn toàn diễn ra tự động dưới sự giám sát. Số tiền phải trả cho người giám sát là 90 ngàn đồng một giờ. Số máy móc công ty nên sử dụng là bao nhiêu để chi phí hoạt động là thấp nhất?`,
+                ans: [60],
+                explain: `Gọi x là số máy (x > 0). Thời gian sản xuất 300.000 quả bóng là 300000/(60x) = 5000/x (giờ). Tổng chi phí C(x) = 125x + 90·(5000/x) = 125x + 450000/x ≥ 2${R('125 · 450000')}. Dấu "=" xảy ra khi 125x = 450000/x ⇔ x² = 3600 ⇔ x = <strong>60</strong> máy.`
+            },
+            {
+                q: `Một khu du lịch được mô hình hóa vào hệ trục tọa độ Oxy bằng một phần đồ thị hàm số: <span class="math">y = </span>${F('2x - 3', 'x - 2')} (C). Người ta xây dựng một quầy thu vé tại điểm <span class="math">M(x<sub>0</sub>; y<sub>0</sub>)</span> thuộc (C), với hoành độ <span class="math">x<sub>0</sub> > 2</span>. Tuyến đường giao thông QLA1 dọc theo đường tiệm cận đứng và QLB1 dọc theo đường tiệm cận ngang của đồ thị (C). Gọi I là giao điểm của hai tuyến đường này. Hãy xác định điểm M sao cho tiếp tuyến tại M cắt hai tuyến đường giao thông tại A và B tạo thành tam giác IAB có chu vi nhỏ nhất. Khi đó, khoảng cách từ quầy thu vé M đến giao điểm I là bao nhiêu (làm tròn đến hàng phần trăm)?`,
+                svg: SVG_LIB.d2_p3_q5,
+                ans: [1.41],
+                explain: `Giao điểm hai tiệm cận là I(2; 2). Đặt Δx = x₀ - 2 > 0, khi đó IA = 2Δx, IB = 2/Δx. Chu vi tam giác vuông IAB nhỏ nhất khi IA = IB ⇔ Δx = 1 ⇒ x₀ = 3, y₀ = 3 ⇒ M(3; 3). Khoảng cách IM = ${R('(3-2)<sup>2</sup> + (3-2)<sup>2</sup>')} = ${R('2')} ≈ <strong>1.41</strong>.`
+            },
+            {
+                q: `Một doanh nghiệp kinh doanh sản xuất đồng hồ có đồ thị hàm tổng chi phí theo số sản phẩm là một phần đồ thị của hàm số bậc hai trên bậc nhất <span class="math">f(x) = </span>${F('ax<sup>2</sup> + bx + c', 'x + e')} như hình vẽ (mỗi đơn vị trên trục hoành tương ứng 100 sản phẩm và mỗi đơn vị trên trục tung tương ứng 1000 USD). Biết rằng tâm đối xứng của đồ thị hàm số <span class="math">f(x)</span> là <span class="math">A(-1; 2/3)</span> và đường tiệm cận xiên của đồ thị hàm số đi qua điểm <span class="math">B(3; 2)</span>. Theo khảo sát, tổng doanh thu của doanh nghiệp này được mô tả bởi hàm số <span class="math">R(x) = x<sup>2</sup> + 2x</span> và lợi nhuận thu về khi bán 200 sản phẩm bằng 5250 USD. Khi chi phí theo số sản phẩm đạt giá trị nhỏ nhất thì số sản phẩm sản xuất được là bao nhiêu? (Làm tròn đến hàng đơn vị).`,
+                svg: SVG_LIB.d2_p3_q6,
+                ans: [63],
+                explain: `Từ tâm đối xứng A(-1; 2/3) và TCX qua B(3; 2), hệ số góc TCX là a = (2 - 2/3)/(3 - (-1)) = 1/3, suy ra TCX là y = 1/3 x + 1 và e = 1 ⇒ f(x) = 1/3 x + 1 + k/(x + 1). Khi bán 200 sản phẩm (x = 2): R(2) - f(2) = 5.25 ⇔ 8 - (5/3 + k/3) = 5.25 ⇒ k = 3.25 = 13/4. Hàm f(x) đạt cực tiểu trên (0; +∞) tại x + 1 = ${R('3k')} = ${R('39/4')} ≈ 1.629 ⇒ x ≈ 0.629 (ứng với <strong>63</strong> sản phẩm).`
+            }
+        ]
+    },
+
+    // ========================================================================
+    // ĐỀ SỐ 3: NGÀY 28/10/2026
+    // ========================================================================
+    {
+        id: "de3",
+        title: "ĐỀ ÔN KIỂM TRA GIỮA KÌ I - ĐỀ SỐ 3 (Ngày 28/10/2026)",
+        subtitle: "Môn: Toán 12 • Thời gian làm bài: 90 phút",
+        part1: [
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có bảng biến thiên như sau. Giá trị cực đại của hàm số đã cho bằng:`,
+                svg: SVG_LIB.d3_p1_q1,
+                options: [`-2`, `-3`, `3`, `2`],
+                ans: 3,
+                explain: `Từ BBT, tại x = 3 hàm số đạt giá trị cực đại bằng <strong>2</strong>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">f(x)</span> liên tục trên [-1; 5] và có đồ thị trên đoạn [-1; 5] như hình vẽ bên dưới. Tổng các giá trị lớn nhất và nhỏ nhất của hàm số <span class="math">f(x)</span> trên đoạn [-1; 5] bằng:`,
+                svg: SVG_LIB.d3_p1_q2,
+                options: [`4`, `-1`, `1`, `2`],
+                ans: 2,
+                explain: `Trên đoạn [-1; 5], GTLN bằng 3 và GTNN bằng -2. Tổng bằng 3 + (-2) = <strong>1</strong>.`
+            },
+            {
+                q: `Gọi <span class="math">m</span> là giá trị nhỏ nhất của hàm số <span class="math">f(x) = (x<sup>2</sup> - 2)e<sup>2x</sup></span> trên đoạn [-1; 2]. Khi đó <span class="math">m</span> có dạng <span class="math">m = a + be<sup>2</sup> (a, b ∈ ℤ)</span>. Tính <span class="math">2a + b</span>.`,
+                options: [`2`, `1`, `-1`, `-2`],
+                ans: 2,
+                explain: `Ta có f'(x) = 2(x² + x - 2)e<sup>2x</sup> = 0 ⇒ x = 1 ∈ [-1; 2]. Giá trị nhỏ nhất đạt tại x = 1 là m = f(1) = -e² ⇒ a = 0, b = -1 ⇒ 2a + b = <strong>-1</strong>.`
+            },
+            {
+                q: `Đường tiệm cận xiên của đồ thị hàm số <span class="math">y = </span>${F('2x<sup>2</sup> + 7x + 4', '2x + 1')} có phương trình là:`,
+                options: [`y = 2x + 1`, `y = x - 3`, `y = 2x - 1`, `y = x + 3`],
+                ans: 3,
+                explain: `Chia đa thức: <span class="math">y = x + 3 + </span>${F('1', '2x + 1')}. Vậy tiệm cận xiên là <strong>y = x + 3</strong>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">f(x)</span> có bảng biến thiên như sau. Hàm số đã cho đồng biến trên khoảng nào sau đây?`,
+                svg: SVG_LIB.d3_p1_q5,
+                options: [`(-1; +∞)`, `(-1; 1)`, `(-∞; -1)`, `(-1; 0)`],
+                ans: 3,
+                explain: `Dựa vào BBT, f'(x) > 0 trên khoảng <strong>(-1; 0)</strong> và (1; +∞).`
+            },
+            {
+                q: `Đồ thị hàm số <span class="math">y = x<sup>4</sup> - x<sup>2</sup> + 1</span> có bao nhiêu điểm cực trị có tung độ là số dương?`,
+                options: [`0`, `3`, `1`, `2`],
+                ans: 1,
+                explain: `Ta có y' = 4x³ - 2x = 0 ⇔ x = 0 (y = 1 > 0) hoặc x = ±1/${R('2')} (y = 3/4 > 0). Vậy cả <strong>3</strong> điểm cực trị đều có tung độ dương.`
+            },
+            {
+                q: `Cho hàm số <span class="math">f(x)</span> có bảng biến thiên như sau. Tổng số đường tiệm cận đứng và đường tiệm cận ngang của đồ thị hàm số đã cho là:`,
+                svg: SVG_LIB.d3_p1_q7,
+                options: [`2`, `4`, `1`, `3`],
+                ans: 0,
+                explain: `Khi x → -∞ thì y → 2 (1 TCN y = 2). Khi x → 0⁺ thì y → +∞ (1 TCĐ x = 0). Tổng cộng có <strong>2</strong> đường tiệm cận.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có đồ thị như hình dưới đây. Biểu thức <span class="math">f(x)</span> là biểu thức nào sau đây?`,
+                svg: SVG_LIB.d3_p1_q8,
+                options: [
+                    `-x<sup>3</sup> + 3x - 1`,
+                    F('2x - 1', 'x + 1'),
+                    `x + ` + F('1', 'x'),
+                    F('x - 1', 'x + 1')
+                ],
+                ans: 3,
+                explain: `Đồ thị có TCĐ x = -1, TCN y = 1 và đi qua (0; -1), (1; 0) nên là hàm số <span class="math">f(x) = </span>${F('x - 1', 'x + 1')}.`
+            },
+            {
+                q: `Hàm số <span class="math">f(x)</span> có đạo hàm <span class="math">f'(x) = x<sup>2</sup>(x - 1)(x - 2)<sup>3</sup>, ∀x ∈ ℝ</span>. Hàm số <span class="math">f(x)</span> có bao nhiêu điểm cực đại?`,
+                options: [`3`, `1`, `0`, `2`],
+                ans: 1,
+                explain: `Đạo hàm đổi dấu từ (+) sang (-) khi đi qua x = 1 và từ (-) sang (+) khi đi qua x = 2. Vậy hàm số có <strong>1</strong> điểm cực đại (tại x = 1).`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = x<sup>4</sup> - 2x<sup>2</sup></span>. Mệnh đề nào dưới đây đúng?`,
+                options: [
+                    `Hàm số nghịch biến trên khoảng (-∞; -2).`,
+                    `Hàm số đồng biến trên khoảng (-∞; -2).`,
+                    `Hàm số nghịch biến trên khoảng (-1; 1).`,
+                    `Hàm số đồng biến trên khoảng (-1; 1).`
+                ],
+                ans: 0,
+                explain: `Ta có y' = 4x³ - 4x &lt; 0 trên (-∞; -1) và (0; 1). Do (-∞; -2) ⊂ (-∞; -1) nên hàm số nghịch biến trên <strong>(-∞; -2)</strong>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = </span>${R('3x - x<sup>2</sup>')}. Hàm số đồng biến trên khoảng nào?`,
+                options: [`(0; 3/2)`, `(3/2; 3)`, `(0; 3)`, `(-∞; 3/2)`],
+                ans: 0,
+                explain: `TXĐ: D = [0; 3]. Đạo hàm <span class="math">y' = </span>${F('3 - 2x', '2' + R('3x - x<sup>2</sup>'))} > 0 ⇔ x ∈ <strong>(0; 3/2)</strong>.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có đạo hàm trên khoảng (a; b). Mệnh đề nào sau đây đúng?`,
+                options: [
+                    `Nếu f(x) > 0, ∀x ∈ (a; b) thì hàm số đồng biến trên khoảng (a; b).`,
+                    `Nếu f(x) < 0, ∀x ∈ (a; b) thì hàm số đồng biến trên khoảng (a; b).`,
+                    `Nếu f'(x) > 0, ∀x ∈ (a; b) thì hàm số đồng biến trên khoảng (a; b).`,
+                    `Nếu f'(x) < 0, ∀x ∈ (a; b) thì hàm số đồng biến trên khoảng (a; b).`
+                ],
+                ans: 2,
+                explain: `Theo định lí: Nếu <span class="math">f'(x) > 0, ∀x ∈ (a; b)</span> thì hàm số đồng biến trên khoảng (a; b).`
+            }
+        ],
+        part2: [
+            {
+                q: `Cho hàm số <span class="math">y = </span>${F('x<sup>2</sup> + x + 2', 'x - 1')}. Các mệnh đề dưới đây đúng hay sai:`,
+                items: [
+                    { text: `a) Đồ thị hàm số có đường tiệm cận đứng là x = 1.`, ans: true },
+                    { text: `b) Đường tiệm cận xiên của đồ thị hàm số là y = x + 2.`, ans: true },
+                    { text: `c) Đồ thị hàm số có điểm cực tiểu là A(-1; -1).`, ans: false },
+                    { text: `d) Đường thẳng đi qua hai điểm cực trị của đồ thị hàm số giao với hai trục tọa độ tạo thành một tam giác có diện tích bằng 1/4.`, ans: true }
+                ],
+                explain: `• Ta có <span class="math">y = x + 2 + </span>${F('4', 'x - 1')} ⇒ TCĐ x = 1, TCX y = x + 2.<br>
+                • c) Sai vì tại x = -1 hàm số đạt cực đại, điểm A(-1; -1) là điểm cực đại.<br>
+                • d) Đúng: Đường thẳng qua 2 cực trị là y = (2x + 1)/1 = 2x + 1 cắt hai trục tại (-1/2; 0) và (0; 1) ⇒ Diện tích S = 1/2 · 1/2 · 1 = 1/4.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = -x<sup>3</sup> - 3x<sup>2</sup> - 3x</span>. Các mệnh đề sau đúng hay sai?`,
+                items: [
+                    { text: `a) Đạo hàm y' = -3x² - 6x - 3.`, ans: true },
+                    { text: `b) Phương trình y' = 0 có nghiệm x = -1.`, ans: true },
+                    { text: `c) Hàm số đạt cực đại tại x = -1.`, ans: false },
+                    { text: `d) Hàm số đồng biến trên khoảng (-∞; -1).`, ans: false }
+                ],
+                explain: `• Ta có y' = -3x² - 6x - 3 = -3(x + 1)² ≤ 0, ∀x ∈ ℝ.<br>
+                • a), b) Đúng.<br>
+                • c), d) Sai vì y' không đổi dấu qua x = -1 và hàm số luôn nghịch biến trên ℝ.`
+            },
+            {
+                q: `Số dân của một thị trấn sau <span class="math">t</span> năm (<span class="math">t ≥ 0</span>) kể từ năm 1970 được ước tính bởi công thức <span class="math">f(t) = </span>${F('26t + 10', 't + 5')} (<span class="math">f(t)</span> được tính bằng nghìn người).`,
+                items: [
+                    { text: `a) Số dân của thị trấn giảm trong những năm từ 1975 đến 1980.`, ans: false },
+                    { text: `b) Đạo hàm của hàm số f biểu thị tốc độ tăng dân số của thị trấn. Vào năm 1998 thì tốc độ tăng dân số là 0,125 nghìn người/năm.`, ans: false },
+                    { text: `c) Đạo hàm f'(t) = ${F('120', '(t + 5)<sup>2</sup>')}, (t ≥ 0).`, ans: true },
+                    { text: `d) Số dân của thị trấn vào năm 1980 là 18 nghìn người.`, ans: true }
+                ],
+                explain: `• Ta có <span class="math">f'(t) = </span>${F('120', '(t + 5)<sup>2</sup>')} > 0 nên dân số luôn tăng ⇒ a) Sai, c) Đúng.<br>
+                • Năm 1998 ứng với t = 28 ⇒ f'(28) = 120/33² ≈ 0.11 ≠ 0.125 ⇒ b) Sai.<br>
+                • Năm 1980 ứng với t = 10 ⇒ f(10) = 270/15 = 18 nghìn người ⇒ d) Đúng.`
+            },
+            {
+                q: `Cho hàm số <span class="math">y = f(x)</span> có đạo hàm <span class="math">f'(x) = (2x - 1)<sup>2</sup>(3 - x)<sup>3</sup>(x + 1)</span>. Các mệnh đề sau đúng hay sai?`,
+                items: [
+                    { text: `a) f(1/2) là giá trị cực tiểu của hàm số đã cho.`, ans: false },
+                    { text: `b) Hàm số nghịch biến trên khoảng (-1; 1/2).`, ans: false },
+                    { text: `c) Giá trị nhỏ nhất của hàm số trên khoảng (-2; 1) là f(-1).`, ans: true },
+                    { text: `d) Hàm số đạt cực tiểu tại x = -1.`, ans: true }
+                ],
+                explain: `• Nghiệm bội chẵn x = 1/2 không làm f'(x) đổi dấu ⇒ a) Sai.<br>
+                • Trên (-1; 3) thì f'(x) ≥ 0 nên hàm số đồng biến ⇒ b) Sai.<br>
+                • Tại x = -1, f'(x) đổi dấu từ (-) sang (+) nên hàm đạt cực tiểu tại x = -1 và f(-1) là GTNN trên (-2; 1) ⇒ c), d) Đúng.`
+            }
+        ],
+        part3: [
+            {
+                q: `Một khu du lịch được mô hình hóa vào hệ trục tọa độ Oxy bằng một phần đồ thị hàm số: <span class="math">y = </span>${F('2x - 3', 'x - 2')} (C). Người ta xây dựng một quầy thu vé tại điểm <span class="math">M(x<sub>0</sub>; y<sub>0</sub>)</span> thuộc (C), với hoành độ <span class="math">x<sub>0</sub> > 2</span>. Tuyến đường QLA1 dọc theo tiệm cận đứng và QLB1 dọc theo tiệm cận ngang của (C). Gọi I là giao điểm của hai tuyến đường này. Hãy xác định điểm M sao cho tiếp tuyến tại M cắt hai tuyến đường giao thông tại A và B tạo thành tam giác IAB có chu vi nhỏ nhất. Khi đó khoảng cách từ M đến I là bao nhiêu (làm tròn đến hàng phần trăm)?`,
+                svg: SVG_LIB.d2_p3_q5,
+                ans: [1.41],
+                explain: `Giao điểm hai tiệm cận là I(2; 2). Khi chu vi tam giác IAB nhỏ nhất thì M(3; 3). Khoảng cách IM = ${R('2')} ≈ <strong>1.41</strong>.`
+            },
+            {
+                q: `Một doanh nghiệp kinh doanh sản xuất đồng hồ có đồ thị hàm tổng chi phí theo số sản phẩm là một phần đồ thị của hàm số <span class="math">f(x) = </span>${F('ax<sup>2</sup> + bx + c', 'x + e')} như hình vẽ (mỗi đơn vị trục hoành ứng với 100 sản phẩm, mỗi đơn vị trục tung ứng với 1000 USD). Biết tâm đối xứng của đồ thị là <span class="math">A(-1; 2/3)</span> và tiệm cận xiên đi qua <span class="math">B(3; 2)</span>. Tổng doanh thu là <span class="math">R(x) = x<sup>2</sup> + 2x</span> và lợi nhuận khi bán 200 sản phẩm bằng 5250 USD. Khi chi phí đạt giá trị nhỏ nhất thì số sản phẩm sản xuất được là bao nhiêu (làm tròn đến hàng đơn vị)?`,
+                svg: SVG_LIB.d2_p3_q6,
+                ans: [63],
+                explain: `Hàm chi phí là f(x) = 1/3 x + 1 + 3.25/(x + 1), đạt GTNN khi x = ${R('3.25 × 3')} - 1 ≈ 0.629 (tương ứng <strong>63</strong> sản phẩm).`
+            },
+            {
+                q: `Tọa độ giao điểm của hai đường tiệm cận của đồ thị hàm số <span class="math">y = </span>${F('x<sup>2</sup> - 3x + 2', '2x<sup>2</sup> - 8')} có dạng là <span class="math">(m; n)</span>. Tính giá trị <span class="math">P = m + 2n<sup>2</sup></span>.`,
+                ans: [-1.5],
+                explain: `Rút gọn với x ≠ 2: <span class="math">y = </span>${F('(x - 1)(x - 2)', '2(x - 2)(x + 2)')} = ${F('x - 1', '2(x + 2)')}. Đồ thị có 1 TCĐ là x = -2 và 1 TCN là y = 1/2. Suy ra m = -2, n = 1/2 ⇒ P = -2 + 2·(1/2)² = <strong>-1.5</strong>.`
+            },
+            {
+                q: `Một người nông dân chi 12.000.000 đồng để làm một hàng rào hình chữ E dọc theo một con sông, bao quanh hai khu đất trồng rau có dạng hai hình chữ nhật bằng nhau (như hình vẽ). Đối với hàng rào song song với bờ sông, chi phí nguyên vật liệu là 60.000 đồng/mét, còn đối với ba mặt hàng rào song song nhau thì chi phí nguyên vật liệu là 50.000 đồng/mét, mặt giáp bờ sông không phải rào. Hỏi tổng diện tích của hai khu đất thu được lớn nhất là bao nhiêu m<sup>2</sup>?`,
+                svg: SVG_LIB.d3_p3_q4,
+                ans: [2000],
+                explain: `Gọi x (m) là độ dài mỗi vách vuông góc với bờ sông (có 3 vách) và y (m) là tổng chiều dài song song với bờ sông. Chi phí: 3·50000x + 60000y = 12000000 ⇔ 5x + 2y = 400 ⇒ y = 200 - 2.5x. Tổng diện tích S = x·y = x(200 - 2.5x) = -2.5x² + 200x đạt GTLN tại x = 40m, y = 100m ⇒ S<sub>max</sub> = <strong>2000</strong> (m²).`
+            },
+            {
+                q: `Khi dạo chơi trên một công viên, bạn Đoàn di chuyển trên đường Parabol, bạn Kết di chuyển trên đường tròn (minh họa bằng hình vẽ bên). Khoảng cách giữa đỉnh A của Parabol và tiếp điểm B của đường tròn là 16m; HK ⊥ AB và AH = 6m, HK = 9m. Tìm khoảng cách nhỏ nhất giữa hai bạn Đoàn và Kết, biết rằng đường tròn có bán kính bằng 3m (làm tròn đến hàng phần trăm).`,
+                svg: SVG_LIB.d3_p3_q5,
+                ans: [8.61],
+                explain: `Chọn hệ trục tọa độ gốc A(0; 0), tia AB là Ox. Parabol đỉnh A(0; 0) qua K(6; 9) có phương trình y = 1/4 x². Đường tròn có tâm I(16; 3), bán kính R = 3. Xét điểm M(x; 1/4 x²) trên Parabol, khoảng cách từ M đến tâm I là IM = ${R('(x - 16)<sup>2</sup> + (x<sup>2</sup>/4 - 3)<sup>2</sup>')}. Khảo sát hàm f(x) = (x - 16)² + (x²/4 - 3)² có f'(x) = 1/8 x³ + 1/2 x - 32 = 0 ⇒ x ≈ 6.085 ⇒ IM<sub>min</sub> ≈ 11.609m. Vậy khoảng cách nhỏ nhất giữa hai bạn là IM<sub>min</sub> - R ≈ 11.609 - 3 = <strong>8.61</strong> (m).`
+            },
+            {
+                q: `Một chiến sĩ đặc công đang nấp ở bờ sông, cần phải bơi qua bờ bên kia để tấn công mục tiêu. Có thể xem con sông này là thẳng và có độ rộng 100 m; vận tốc bơi của chiến sĩ bằng một phần ba vận tốc chạy bộ. Biết rằng mục tiêu tấn công cách chiến sĩ 1 km (1000 m) theo đường chim bay, hỏi chiến sĩ phải bơi bao nhiêu mét để đến được mục tiêu nhanh nhất (làm tròn kết quả đến hàng đơn vị)?`,
+                svg: SVG_LIB.d3_p3_q6,
+                ans: [106],
+                explain: `Gọi x (m) là độ dịch chuyển dọc bờ sông khi bơi, quãng đường bơi là s = ${R('100<sup>2</sup> + x<sup>2</sup>')}. Để thời gian t = ${R('100<sup>2</sup> + x<sup>2</sup>')}/v + (d - x)/(3v) nhỏ nhất thì t'(x) = 0 ⇔ x / ${R('100<sup>2</sup> + x<sup>2</sup>')} = 1/3 ⇔ 9x² = 100² + x² ⇒ x² = 100²/8. Quãng đường bơi là s = ${R('100<sup>2</sup> + 100<sup>2</sup>/8')} = 100 · ${R('9/8')} = 150/${R('2')} ≈ <strong>106</strong> (m).`
+            }
+        ]
+    }
+];
+
+// ============================================================================
+// BIẾN TRẠNG THÁI & LOGIC VẬN HÀNH
+// ============================================================================
+let currentExamIdx = 0;
+let userState = EXAMS.map(ex => ({
+    p1: Array(12).fill(null),
+    p2: Array(4).fill(null).map(() => [null, null, null, null]),
+    p3: Array(6).fill(""),
+    graded: false,
+    showSol: false
+}));
+
+// Bộ đếm thời gian 90 phút
+let remainingSeconds = 90 * 60;
+setInterval(() => {
+    if (remainingSeconds > 0 && !userState[currentExamIdx].graded) {
+        remainingSeconds--;
+        const m = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+        const s = String(remainingSeconds % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    }
+}, 1000);
+
+function switchExam(idx) {
+    currentExamIdx = idx;
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+    });
+    renderCurrentExam();
+}
+
+function renderCurrentExam() {
+    const exam = EXAMS[currentExamIdx];
+    const state = userState[currentExamIdx];
+
+    document.getElementById('examTitleHeader').innerHTML = `
+        <div style="background:#fff; padding:16px 20px; border-radius:12px; border:1px solid var(--border); box-shadow:var(--shadow);">
+            <h2 style="color:var(--primary); font-size:1.25rem;">${exam.title}</h2>
+            <p style="color:var(--text-muted); font-size:0.9rem;">${exam.subtitle}</p>
+        </div>
+    `;
+
+    let html = '';
+
+    // --- PHẦN I ---
+    html += `
+        <div class="section-banner">
+            <h2>PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (3,0 điểm)</h2>
+            <p>Thí sinh trả lời từ câu 1 đến câu 12. Mỗi câu hỏi thí sinh chỉ chọn một phương án.</p>
+        </div>
+    `;
+
+    exam.part1.forEach((item, qIdx) => {
+        const chosen = state.p1[qIdx];
+        const isGraded = state.graded;
+        const isCorrect = isGraded && chosen === item.ans;
+        const cardClass = isGraded ? (isCorrect ? 'correct-card' : 'wrong-card') : '';
+
+        html += `
+        <div class="q-card ${cardClass}" id="q_p1_${qIdx}">
+            <div class="q-header">
+                <span class="q-badge">Câu ${qIdx + 1}</span>
+                ${isGraded ? `<span style="font-weight:700; font-size:0.85rem; color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">${isCorrect ? '✓ Đúng (+0.25đ)' : '✗ Sai (0đ)'}</span>` : ''}
+            </div>
+            <div class="q-text">${item.q}</div>
+            ${item.svg ? `<div class="figure-box">${item.svg}</div>` : ''}
+            <div class="options-grid">
+                ${item.options.map((opt, oIdx) => {
+                    const letters = ['A', 'B', 'C', 'D'];
+                    let cls = '';
+                    if (chosen === oIdx) cls = 'selected';
+                    if (isGraded) {
+                        if (oIdx === item.ans) cls = 'is-right';
+                        else if (chosen === oIdx && chosen !== item.ans) cls = 'is-wrong';
+                    }
+                    return `
+                    <label class="opt-label ${cls}" onclick="selectPart1(${qIdx}, ${oIdx})">
+                        <input type="radio" name="p1_q${qIdx}" ${chosen === oIdx ? 'checked' : ''} ${isGraded ? 'disabled' : ''}>
+                        <span><strong>${letters[oIdx]}.</strong> ${opt}</span>
+                    </label>`;
+                }).join('')}
+            </div>
+            <div class="solution-box ${state.showSol || isGraded ? 'show' : ''}">
+                <strong>Đáp án đúng: ${['A','B','C','D'][item.ans]}</strong><br>${item.explain}
+            </div>
+        </div>`;
+    });
+
+    // --- PHẦN II ---
+    html += `
+        <div class="section-banner">
+            <h2>PHẦN II. Câu trắc nghiệm đúng sai (4,0 điểm)</h2>
+            <p>Thí sinh trả lời từ câu 1 đến câu 4. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn Đúng hoặc Sai.</p>
+        </div>
+    `;
+
+    exam.part2.forEach((item, qIdx) => {
+        const choices = state.p2[qIdx];
+        const isGraded = state.graded;
+        let matchCount = 0;
+        if (isGraded) {
+            item.items.forEach((sub, sIdx) => {
+                if (choices[sIdx] === sub.ans) matchCount++;
+            });
+        }
+        const ptsMap = [0, 0.1, 0.25, 0.5, 1.0];
+
+        html += `
+        <div class="q-card" id="q_p2_${qIdx}">
+            <div class="q-header">
+                <span class="q-badge">Câu ${qIdx + 1} (Đúng / Sai)</span>
+                ${isGraded ? `<span style="font-weight:700; font-size:0.85rem; color:var(--primary)">Đúng ${matchCount}/4 ý (+${ptsMap[matchCount]}đ)</span>` : ''}
+            </div>
+            <div class="q-text">${item.q}</div>
+            ${item.svg ? `<div class="figure-box">${item.svg}</div>` : ''}
+            <table class="tf-table">
+                <thead>
+                    <tr>
+                        <th>Mệnh đề</th>
+                        <th>Đúng</th>
+                        <th>Sai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${item.items.map((sub, sIdx) => {
+                        let rowCls = '';
+                        if (isGraded) {
+                            rowCls = (choices[sIdx] === sub.ans) ? 'tf-row-right' : 'tf-row-wrong';
+                        }
+                        return `
+                        <tr class="${rowCls}">
+                            <td>${sub.text}</td>
+                            <td class="tf-choice">
+                                <input type="radio" name="p2_q${qIdx}_s${sIdx}" ${choices[sIdx] === true ? 'checked' : ''} onchange="selectPart2(${qIdx}, ${sIdx}, true)" ${isGraded ? 'disabled' : ''}>
+                            </td>
+                            <td class="tf-choice">
+                                <input type="radio" name="p2_q${qIdx}_s${sIdx}" ${choices[sIdx] === false ? 'checked' : ''} onchange="selectPart2(${qIdx}, ${sIdx}, false)" ${isGraded ? 'disabled' : ''}>
+                            </td>
+                        </tr>`;
+                    }).join('')}
+                </tbody>
+            </table>
+            <div class="solution-box ${state.showSol || isGraded ? 'show' : ''}">
+                <strong>Đáp án: ${item.items.map((s, idx) => `${['a','b','c','d'][idx]}) ${s.ans ? 'Đúng' : 'Sai'}`).join(' • ')}</strong><br>
+                ${item.explain}
+            </div>
+        </div>`;
+    });
+
+    // --- PHẦN III ---
+    html += `
+        <div class="section-banner">
+            <h2>PHẦN III. Câu trắc nghiệm trả lời ngắn (3,0 điểm)</h2>
+            <p>Thí sinh trả lời từ câu 1 đến câu 6 bằng cách nhập kết quả số (dùng dấu chấm hoặc dấu phẩy cho số thập phân).</p>
+        </div>
+    `;
+
+    exam.part3.forEach((item, qIdx) => {
+        const val = state.p3[qIdx];
+        const isGraded = state.graded;
+        const isCorrect = isGraded && checkShortAnswer(val, item.ans);
+        const cardClass = isGraded ? (isCorrect ? 'correct-card' : 'wrong-card') : '';
+
+        html += `
+        <div class="q-card ${cardClass}" id="q_p3_${qIdx}">
+            <div class="q-header">
+                <span class="q-badge">Câu ${qIdx + 1} (Trả lời ngắn)</span>
+                ${isGraded ? `<span style="font-weight:700; font-size:0.85rem; color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">${isCorrect ? '✓ Chính xác (+0.5đ)' : '✗ Chưa đúng (0đ)'}</span>` : ''}
+            </div>
+            <div class="q-text">${item.q}</div>
+            ${item.svg ? `<div class="figure-box">${item.svg}</div>` : ''}
+            <div class="sa-box">
+                <label style="font-weight:600;">Đáp số của bạn:</label>
+                <input type="text" class="sa-input" placeholder="Nhập kết quả..." value="${val}" oninput="inputPart3(${qIdx}, this.value)" ${isGraded ? 'disabled' : ''}>
+                ${isGraded ? `<span style="font-weight:700; color:var(--success)">Đáp án chuẩn: ${item.ans.join(' hoặc ')}</span>` : ''}
+            </div>
+            <div class="solution-box ${state.showSol || isGraded ? 'show' : ''}">
+                <strong>Đáp số: ${item.ans.join(' hoặc ')}</strong><br>${item.explain}
+            </div>
+        </div>`;
+    });
+
+    document.getElementById('questionsContainer').innerHTML = html;
+    updateSidebar();
+}
+
+function checkShortAnswer(userStr, validArray) {
+    if (!userStr || userStr.trim() === '') return false;
+    const normalized = parseFloat(userStr.trim().replace(',', '.'));
+    if (isNaN(normalized)) return false;
+    return validArray.some(ans => Math.abs(normalized - ans) <= 0.05);
+}
+
+function selectPart1(qIdx, oIdx) {
+    if (userState[currentExamIdx].graded) return;
+    userState[currentExamIdx].p1[qIdx] = oIdx;
+    renderCurrentExam();
+}
+
+function selectPart2(qIdx, sIdx, val) {
+    if (userState[currentExamIdx].graded) return;
+    userState[currentExamIdx].p2[qIdx][sIdx] = val;
+    updateSidebar();
+}
+
+function inputPart3(qIdx, val) {
+    if (userState[currentExamIdx].graded) return;
+    userState[currentExamIdx].p3[qIdx] = val;
+    updateSidebar();
+}
+
+function scrollToQuestion(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function updateSidebar() {
+    const exam = EXAMS[currentExamIdx];
+    const state = userState[currentExamIdx];
+
+    // Nav Part 1
+    document.getElementById('navPart1').innerHTML = exam.part1.map((item, i) => {
+        let cls = state.p1[i] !== null ? 'done' : '';
+        if (state.graded) {
+            cls = state.p1[i] === item.ans ? 'dot-right' : 'dot-wrong';
+        }
+        return `<button class="nav-dot ${cls}" onclick="scrollToQuestion('q_p1_${i}')">${i + 1}</button>`;
+    }).join('');
+
+    // Nav Part 2
+    document.getElementById('navPart2').innerHTML = exam.part2.map((item, i) => {
+        const doneAny = state.p2[i].some(v => v !== null);
+        let cls = doneAny ? 'done' : '';
+        if (state.graded) {
+            const allRight = item.items.every((sub, sIdx) => state.p2[i][sIdx] === sub.ans);
+            cls = allRight ? 'dot-right' : 'dot-wrong';
+        }
+        return `<button class="nav-dot ${cls}" onclick="scrollToQuestion('q_p2_${i}')">${i + 1}</button>`;
+    }).join('');
+
+    // Nav Part 3
+    document.getElementById('navPart3').innerHTML = exam.part3.map((item, i) => {
+        const hasVal = state.p3[i] && state.p3[i].trim() !== '';
+        let cls = hasVal ? 'done' : '';
+        if (state.graded) {
+            cls = checkShortAnswer(state.p3[i], item.ans) ? 'dot-right' : 'dot-wrong';
+        }
+        return `<button class="nav-dot ${cls}" onclick="scrollToQuestion('q_p3_${i}')">${i + 1}</button>`;
+    }).join('');
+
+    // Điểm số
+    if (state.graded) {
+        let s1 = 0, s2 = 0, s3 = 0;
+        exam.part1.forEach((item, i) => {
+            if (state.p1[i] === item.ans) s1 += 0.25;
+        });
+        const ptsMap = [0, 0.1, 0.25, 0.5, 1.0];
+        exam.part2.forEach((item, i) => {
+            let m = 0;
+            item.items.forEach((sub, sIdx) => {
+                if (state.p2[i][sIdx] === sub.ans) m++;
+            });
+            s2 += ptsMap[m];
+        });
+        exam.part3.forEach((item, i) => {
+            if (checkShortAnswer(state.p3[i], item.ans)) s3 += 0.5;
+        });
+        const total = (s1 + s2 + s3).toFixed(2);
+        document.getElementById('scoreValue').textContent = `${total} / 10`;
+        document.getElementById('scoreDetail').innerHTML = `P.I: ${s1.toFixed(2)}đ | P.II: ${s2.toFixed(2)}đ | P.III: ${s3.toFixed(2)}đ`;
+    } else {
+        document.getElementById('scoreValue').textContent = `-- / 10`;
+        document.getElementById('scoreDetail').textContent = `Đang làm bài`;
+    }
+}
+
+function gradeCurrentExam() {
+    userState[currentExamIdx].graded = true;
+    userState[currentExamIdx].showSol = true;
+    renderCurrentExam();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleSolutions() {
+    userState[currentExamIdx].showSol = !userState[currentExamIdx].showSol;
+    renderCurrentExam();
+}
+
+function resetCurrentExam() {
+    userState[currentExamIdx] = {
+        p1: Array(12).fill(null),
+        p2: Array(4).fill(null).map(() => [null, null, null, null]),
+        p3: Array(6).fill(""),
+        graded: false,
+        showSol: false
+    };
+    remainingSeconds = 90 * 60;
+    renderCurrentExam();
+}
+
+function downloadOfflineHTML() {
+    const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Bo_3_De_On_GKI_Toan_12_Offline.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Khởi chạy lần đầu
+window.onload = () => {
+    renderCurrentExam();
+};
+</script>
+
+</body>
+</html>
